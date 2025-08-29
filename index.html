@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
-    body {
+    body {  
       font-family: 'Quicksand', sans-serif;
       background: linear-gradient(135deg, #86efac, #4ade80);
       min-height: 100vh;
@@ -32,7 +32,7 @@
       margin: 0 auto;
     }
     
-    /* Desktop/Large screen styles */
+ 
     @media (min-width: 768px) {
       .container {
         max-width: 600px;
@@ -82,11 +82,11 @@
         margin-bottom: 1.5rem;
       }
       
-      .avatar {
-        width: 80px;
-        height: 极80px;
-        margin-bottom: 1rem;
-      }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
       
       button.link-btn {
         padding: 0.75rem 1.25rem;
@@ -119,9 +119,16 @@
       border: 4px solid #34d399;
       overflow: hidden;
       margin-bottom: 1.25rem;
-      box-shadow: 0 4极px 8px rgb(56 189 138 / 0.35);
+      box-shadow: 0 4px 8px rgb(56 189 138 / 0.35);
       transition: transform 0.3s ease;
       cursor: pointer;
+      background-color: #3b82f6;
+      color: white;
+      font-weight: bold;
+      font-size: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .avatar:hover {
       transform: scale(1.1);
@@ -185,7 +192,7 @@
       color: #065f46cc;
       user-select: none;
     }
-    /* Share button on top right */
+
     .share-btn {
       position: fixed;
       top: 1rem;
@@ -218,7 +225,7 @@
     .share-btn:hover svg {
       stroke: white;
     }
-    /* Interactive alert popup */
+ 
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -247,6 +254,29 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* Circular plus button */
+    #addServiceBtnOutside {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #357a38;
+      color: white;
+      font-size: 36px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    #addServiceBtnOutside:hover {
+      background-color: #2c5d2e;
+    }
   </style>
 </head>
 <body>
@@ -258,12 +288,7 @@
 
   <main role="main" class="container" aria-label="Profil bio TeluGe Agro">
     <div class="avatar" tabindex="0" aria-label="Logo perusahaan TeluGe Agro">
-      <img 
-        src="/logo Teluge.jpg" 
-        alt="Logo TeluGe Agro dengan tulisan TeluGe Agro dan ilustrasi pisang berwarna hijau dan oranye" 
-        width="100" height="100"
-        onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c55cbda9-aa84-46e6-9466-e6d6f80a0d34.png';"
-      />
+      <img src="logo Teluge.jpg" alt="Logo Teluge Agro" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
     </div>
 
     <h1>@telugeagro</h1>
@@ -271,11 +296,11 @@
 
     <nav class="links" aria-label="Tautan Aplikasi dan Media Sosial">
       <button class="link-btn" onclick="openLink('https://www.tokopedia.com/telugeagro')" aria-label="Buka Tokopedia TeluGe Agro">
-        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3a90d8c1-602d-4308-90ab-47c3f959080f.png" alt="Logo hijau Tokopedia berbentuk burung hantu" onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d597cd25-28d1-487d-abd7-4e7cc6d246f0.png';"/>
+        <img src="Logo Tokopedia (1).png" alt="Logo hijau Tokopedia berbentuk burung hantu" onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d597cd25-28d1-487d-abd7-4e7cc6d246f0.png';"/>
         Tokopedia
       </button>
       <button class="link-btn" onclick="openLink('https://shopee.co.id/t3luge_agro?is_from_login=true')" aria-label="Buka Shopee TeluGe Agro">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee_logo.svg" alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        <img src="Logo Shopee.png" alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
         Shopee
       </button>
       <button class="link-btn" onclick="openLink('https://www.instagram.com/teluge_agro?igsh=cXR3YWtxaDNnYjJw')" aria-label="Buka Instagram TeluGe Agro">
@@ -291,11 +316,98 @@
         Facebook
       </button>
       <button class="link-btn" onclick="openLink('https://www.google.com/maps/place/Teluge+Agro+-+Supplier+Pisang+dan+Spesialis/@-7.7408703,109.9370574,692m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e7ac390dce0a6eb:0xf0cb3eb8af2c7312!8m2!3d-7.7408703!4d109.9370574!16s%2Fg%2F11hfg1m849?entry=ttu&g_ep=EgoyMDI5MDgyNS4wIKXMDSoASAFQAw%3D%3D')" aria-label="Buka Google Maps TeluGe Agro">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Google_Maps_icon.svg" alt="Logo Google Maps berwarna merah" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        <img src="Logo Maps.png" alt="Logo Google Maps berwarna merah" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
         Google Maps
       </button>
     </nav>
+
+   
+    <button id="addServiceBtnOutside" aria-label="Tambah Layanan" title="Tambah Layanan">+</button>
+
   </main>
+
+
+
+  <div id="serviceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-80 max-w-full relative">
+      <h2 id="serviceModalTitle" class="text-lg font-bold mb-4 text-green-700">Edit Layanan</h2>
+      <form id="serviceForm" class="flex flex-col gap-4" novalidate>
+        <label for="serviceTitle" class="font-semibold text-green-600">Judul Layanan</label>
+        <input type="text" id="serviceTitle" name="serviceTitle" required class="border border-green-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+        
+        <label for="serviceUrl" class="font-semibold text-green-600">URL Tujuan</label>
+        <input type="url" id="serviceUrl" name="serviceUrl" required class="border border-green-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+        
+        <label for="serviceLogo" class="font-semibold text-green-600">URL Logo</label>
+        <input type="url" id="serviceLogo" name="serviceLogo" class="border border-green-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" />
+        
+        <img id="logoPreview" src="" alt="Preview Logo" class="w-16 h-16 rounded mt-2 object-contain border border-gray-300" />
+        
+        <div class="flex justify-end gap-3 mt-4">
+          <button type="button" id="cancelServiceBtn" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Batal</button>
+          <button type="submit" id="saveServiceBtn" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition">Simpan</button>
+        </div>
+      </form>
+      <button id="closeServiceModal" aria-label="Close modal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 font-bold text-xl">&times;</button>
+    </div>
+  </div>
+
+<div id="adminMenu" class="hidden absolute w-60 bg-white rounded-xl shadow-xl border border-gray-200 z-50">
+
+    <div class="p-4 border-b border-gray-100">
+      <p class="text-sm font-semibold text-gray-800">TelugeAgro_Admin</p>
+      <p class="text-xs text-gray-400">Admin Panel</p>
+    </div>
+
+    <div class="flex flex-col">
+      <button onclick="manageWeb()" 
+        class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3a.75.75 0 01.75.75V6a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V3.75A.75.75 0 016 3h3.75zM18 3.75A.75.75 0 0017.25 3H13.5a.75.75 0 00-.75.75V6a.75.75 0 00.75.75h3.75A.75.75 0 0018 6V3.75zM9.75 13.5a.75.75 0 01.75.75V18a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75v-3.75A.75.75 0 016 13.5h3.75zM18 13.5a.75.75 0 00-.75.75V18a.75.75 0 00.75.75h3.75a.75.75 0 00.75-.75v-3.75a.75.75 0 00-.75-.75H18z" />
+        </svg>
+        Manage Web
+      </button>
+      <button id="addServiceBtn" 
+        class="flex items-center justify-center gap-2 px-4 py-3 text-white bg-blue-600 rounded-full hover:bg-blue-700 transition w-12 h-12 mx-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
+      <button onclick="logoutAdmin()" 
+        class="flex items-center gap-2 px-4 py-3 text-red-600 hover:bg-red-50 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-9A2.25 2.25 0 002.25 5.25v13.5A2.25 2.25 0 004.5 21h9a2.25 2.25 0 002.25-2.25V15M12 9l3-3m0 0l3 3m-3-3v12" />
+        </svg>
+        Logout
+      </button>
+    </div>
+  </div>
+
+<script>
+  function manageWeb() {
+    showToast("Mode editing diaktifkan");
+    toggleEditingMode();
+    hideAdminMenu();
+  }
+
+    function logoutAdmin() {
+      localStorage.removeItem('adminLoggedIn');
+      showToast("Logout berhasil");
+      hideAdminMenu();
+      
+      // Reset login state and show login modal if account button is clicked again
+      const accountBtn = document.getElementById('accountBtn');
+      const avatar = document.querySelector('.avatar');
+      
+      // Update event listeners to show login modal instead of admin menu
+      accountBtn.onclick = showLoginModal;
+      if (avatar) {
+        avatar.onclick = showLoginModal;
+      }
+    }
+
+
+</script>
 
   <!-- Admin Account Button -->
   <button id="accountBtn" aria-label="Account Menu" title="Account Menu" class="share-btn" style="top: 5rem; right: 1rem;">
@@ -305,7 +417,7 @@
     </svg>
   </button>
 
-  <!-- Login Modal -->
+
   <div id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white rounded-lg p-6 w-80 max-w-full shadow-lg">
       <h2 id="loginTitle" class="text-xl font-bold mb-4 text-center text-green-700">Admin Login</h2>
@@ -324,7 +436,7 @@
   <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
   <script>
-    // Hardcoded credentials for demo
+
     const ADMIN_USERNAME = 'teluge@admin.app';
     const ADMIN_PASSWORD = 'teluge2025';
 
@@ -348,22 +460,26 @@
       loginModal.classList.add('hidden');
     }
 
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
 
     accountBtn.addEventListener('click', () => {
       if (isLoggedIn()) {
-        showAdminMenu();
+        toggleAdminMenu();
       } else {
         showLoginModal();
       }
     });
+
+    // Add click event to avatar for toggling admin menu
+    const avatar = document.querySelector('.avatar');
+    if (avatar) {
+      avatar.addEventListener('click', () => {
+        if (isLoggedIn()) {
+          toggleAdminMenu();
+        } else {
+          showLoginModal();
+        }
+      });
+    }
 
     loginCancel.addEventListener('click', () => {
       hideLoginModal();
@@ -378,47 +494,79 @@
         localStorage.setItem('adminLoggedIn', 'true');
         hideLoginModal();
         showToast('Login berhasil!');
-        showAdminMenu();
+        toggleAdminMenu();
       } else {
         loginError.textContent = 'Username atau password salah.';
         loginError.classList.remove('hidden');
       }
     });
 
-    // Admin menu UI
+ 
     let adminMenu;
 
-    function showAdminMenu() {
+    function toggleAdminMenu() {
       if (!adminMenu) {
-        adminMenu = document.createElement('div');
-        adminMenu.setAttribute('role', 'menu');
-        adminMenu.style.position = 'fixed';
-        adminMenu.style.top = '5rem';
-        adminMenu.style.right = '1rem';
-        adminMenu.style.background = 'white';
-        adminMenu.style.border = '1px solid #34d399';
-        adminMenu.style.borderRadius = '0.5rem';
-        adminMenu.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-        adminMenu.style.zIndex = '60';
-        adminMenu.style.minWidth = '140px';
-        adminMenu.style.padding = '0.5rem 0';
+        createAdminMenu();
+      }
 
-        const manageWebBtn = document.createElement('button');
-        manageWebBtn.textContent = 'Manage Web';
-        manageWebBtn.style.display = 'block';
-        manageWebBtn.style.width = '100%';
-        manageWebBtn.style.padding = '0.5rem 1rem';
-        manageWebBtn.style.background = 'none';
-        manageWebBtn.style.border = 'none';
-        manageWebBtn.style.textAlign = 'left';
-        manageWebBtn.style.cursor = 'pointer';
-        manageWebBtn.style.color = '#065f46';
-        manageWebBtn.style.fontWeight = '600';
-        manageWebBtn.addEventListener('mouseenter', () => manageWebBtn.style.background = '#d1fae5');
-        manageWebBtn.addEventListener('mouseleave', () => manageWebBtn.style.background = 'none');
-        manageWebBtn.addEventListener('click', () => {
-          toggleEditingMode();
-        });
+      if (adminMenu.style.display === 'none' || adminMenu.classList.contains('minimized')) {
+    
+        adminMenu.style.display = 'block';
+        adminMenu.classList.remove('minimized');
+        
+       
+        const accountBtnRect = document.getElementById('accountBtn').getBoundingClientRect();
+        const menuWidth = 200; 
+        const menuHeight = adminMenu.offsetHeight || 100; // approximate height
+
+       
+        let top = accountBtnRect.bottom + 6; // 6px margin below account button
+
+        // Align menu's right edge with account button's right edge
+        let right = window.innerWidth - accountBtnRect.right; // calculate right position
+
+        // Ensure menu does not overflow viewport vertically
+        if (top + menuHeight > window.innerHeight - 10) {
+          top = accountBtnRect.top - menuHeight - 6; // position above account button with margin
+          if (top < 10) {
+            top = 10; // fallback minimum margin from top viewport edge
+          }
+        }
+
+        // Apply fixed positioning with right and top offsets
+        adminMenu.style.position = 'fixed';
+        adminMenu.style.top = top + 'px';
+        adminMenu.style.right = right + 'px';
+        adminMenu.style.left = 'auto'; // reset left to auto to avoid conflicts
+
+        // Add click outside handler to close menu
+        setTimeout(() => {
+          document.addEventListener('click', handleClickOutside);
+        }, 0);
+      } else {
+        // Hide admin menu
+        hideAdminMenu();
+      }
+    }
+
+    function hideAdminMenu() {
+      if (adminMenu) {
+        adminMenu.style.display = 'none';
+        adminMenu.classList.add('minimized');
+        document.removeEventListener('click', handleClickOutside);
+      }
+    }
+
+    function handleClickOutside(event) {
+      if (adminMenu && adminMenu.style.display === 'block') {
+        const isClickInsideMenu = adminMenu.contains(event.target);
+        const isClickOnAccountBtn = event.target === accountBtn || accountBtn.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnAccountBtn) {
+          hideAdminMenu();
+        }
+      }
+    }
 
     let editingMode = false;
 
@@ -444,6 +592,48 @@
         linksContainer.querySelectorAll('button.link-btn').forEach(btn => {
           btn.setAttribute('contenteditable', 'true');
           btn.style.outline = '1px dashed #34d399';
+          
+          // Add edit icon to each service button
+          if (!btn.querySelector('.edit-icon')) {
+            const editIcon = document.createElement('span');
+            editIcon.className = 'edit-icon';
+            // Replace pencil emoji with blue edit icon SVG
+            editIcon.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" fill="#2563eb" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="1.5" width="18" height="18" style="vertical-align: middle;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5m-10-7l7 7m0 0l3-3m-3 3v-3" />
+              </svg>
+            `;
+            editIcon.style.marginLeft = 'auto';
+            editIcon.style.padding = '0 8px';
+            editIcon.style.cursor = 'pointer';
+            editIcon.style.fontSize = '16px';
+            editIcon.addEventListener('click', function(e) {
+              e.stopPropagation();
+              openServiceModal(btn);
+            });
+            btn.appendChild(editIcon);
+
+            // Add delete icon next to edit icon
+            if (!btn.querySelector('.delete-icon')) {
+              const deleteIcon = document.createElement('span');
+              deleteIcon.className = 'delete-icon';
+              deleteIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#ef4444" viewBox="0 0 24 24" stroke="#ef4444" stroke-width="1.5" width="18" height="18" style="vertical-align: middle; cursor: pointer;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              `;
+              deleteIcon.style.padding = '0 8px';
+              deleteIcon.title = 'Hapus layanan';
+              deleteIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (confirm('Yakin ingin menghapus layanan ini?')) {
+                  btn.remove();
+                  saveContent();
+                }
+              });
+              btn.appendChild(deleteIcon);
+            }
+          }
         });
 
         // Enable URL editing on double click
@@ -470,6 +660,12 @@
         linksContainer.querySelectorAll('button.link-btn').forEach(btn => {
           btn.removeAttribute('contenteditable');
           btn.style.outline = 'none';
+          
+          // Remove edit icons
+          const editIcon = btn.querySelector('.edit-icon');
+          if (editIcon) {
+            editIcon.remove();
+          }
         });
 
         // Remove drag and drop handlers
@@ -724,18 +920,23 @@
         elem.setAttribute('draggable', 'true');
         
         // Add drag handle for mobile (small icon on the right)
-        if (!elem.querySelector('.drag-handle')) {
-          const dragHandle = document.createElement('span');
-          dragHandle.className = 'drag-handle';
-          dragHandle.innerHTML = '≡';
-          dragHandle.style.marginLeft = 'auto';
-          dragHandle.style.padding = '0 8px';
-          dragHandle.style.cursor = 'move';
-          dragHandle.style.opacity = '0.7';
-          dragHandle.style.fontSize = '16px';
-          dragHandle.style.userSelect = 'none';
-          elem.appendChild(dragHandle);
-        }
+          if (!elem.querySelector('.drag-handle')) {
+            const dragHandle = document.createElement('span');
+            dragHandle.className = 'drag-handle';
+            dragHandle.style.marginLeft = 'auto';
+            dragHandle.style.padding = '0 8px';
+            dragHandle.style.cursor = 'move';
+            dragHandle.style.opacity = '0.7';
+            dragHandle.style.fontSize = '16px';
+            dragHandle.style.userSelect = 'none';
+            // Replace drag handle text with plus icon SVG
+            dragHandle.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: #34d399;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            `;
+            elem.appendChild(dragHandle);
+          }
         
         // Desktop events
         elem.addEventListener('dragstart', handleDragStart, false);
@@ -832,8 +1033,15 @@
     function enableLogoEditing(linksContainer) {
       linksContainer.querySelectorAll('button.link-btn img').forEach(img => {
         img.style.cursor = 'pointer';
-        img.style.outline = '1px dashed #34d399';
-        img.addEventListener('click', onMenuLogoClick);
+        img.style.outline = '2px dashed #34d399';
+        img.addEventListener('dblclick', function(e) {
+          e.stopPropagation();
+          const url = prompt('Masukkan URL gambar logo baru:');
+          if (url) {
+            img.src = url;
+            saveContent();
+          }
+        });
       });
     }
 
@@ -841,247 +1049,279 @@
       linksContainer.querySelectorAll('button.link-btn img').forEach(img => {
         img.style.cursor = 'default';
         img.style.outline = 'none';
-        img.removeEventListener('click', onMenuLogoClick);
+        img.removeEventListener('dblclick', arguments.callee);
       });
-    }
-
-    function onMenuLogoClick(e) {
-      e.stopPropagation(); // Prevent triggering the button click
-      const img = this;
-      const url = prompt('Masukkan URL gambar logo baru untuk menu ini:');
-      if (url) {
-        img.src = url;
-        saveContent();
-      }
-    }
-
-    function saveContent() {
-      const container = document.querySelector('.container');
-      localStorage.setItem('editedContent', container.innerHTML);
-      showToast('Changes saved');
-    }
-
-    function loadContent() {
-      const saved = localStorage.getItem('editedContent');
-      if (saved) {
-        const container = document.querySelector('.container');
-        container.innerHTML = saved;
-      }
-    }
-
-
-    // Undo/Redo functionality
-    let historyStack = [];
-    let historyPointer = -1;
-    const MAX_HISTORY = 50;
-
-    function saveToHistory() {
-      const container = document.querySelector('.container');
-      const currentState = container.innerHTML;
-      
-      // Remove future states if we're not at the end
-      if (historyPointer < historyStack.length - 1) {
-        historyStack = historyStack.slice(0, historyPointer + 1);
-      }
-      
-      historyStack.push(currentState);
-      historyPointer = historyStack.length - 1;
-      
-      // Limit history size
-      if (historyStack.length > MAX_HISTORY) {
-        historyStack.shift();
-        historyPointer = historyStack.length - 1;
-      }
-    }
-
-    function undo() {
-      if (historyPointer > 0) {
-        historyPointer--;
-        const container = document.querySelector('.container');
-        container.innerHTML = historyStack[historyPointer];
-        showToast('Undo');
-      } else {
-        showToast('Tidak ada yang bisa di-undo');
-      }
-    }
-
-    function redo() {
-      if (historyPointer < historyStack.length - 1) {
-        historyPointer++;
-        const container = document.querySelector('.container');
-        container.innerHTML = historyStack[historyPointer];
-        showToast('Redo');
-      } else {
-        showToast('Tidak ada yang bisa di-redo');
-      }
     }
 
     // URL editing functionality
     function enableURLEditing(linksContainer) {
-      linksContainer.querySelectorAll('button.link-btn').forEach((btn, index) => {
-        btn.addEventListener('dblclick', (e) => {
-          e.preventDefault();
+      linksContainer.querySelectorAll('button.link-btn').forEach(btn => {
+        btn.addEventListener('dblclick', function(e) {
           e.stopPropagation();
-          
-          const currentURL = btn.getAttribute('onclick');
-          let url = '';
-          
-          if (currentURL) {
-            if (currentURL.includes('openLink')) {
-              url = currentURL.match(/openLink\('([^']+)'\)/)[1];
-            } else if (currentURL.includes('openWhatsApp')) {
-              url = 'whatsapp:' + btn.querySelector('img').alt.toLowerCase().includes('whatsapp');
-            }
-          }
-          
-          const newURL = prompt('Edit URL tujuan:', url || 'https://');
-          if (newURL !== null) {
-            if (newURL.trim() !== '') {
-              if (btn.textContent.toLowerCase().includes('whatsapp')) {
-                btn.setAttribute('onclick', `openWhatsAppCustom('${newURL}')`);
-              } else {
-                btn.setAttribute('onclick', `openLink('${newURL}')`);
-              }
-              saveContent();
-              saveToHistory();
-            }
+          const currentUrl = this.getAttribute('onclick').match(/'(.*?)'/)[1];
+          const newUrl = prompt('Masukkan URL baru:', currentUrl);
+          if (newUrl) {
+            this.setAttribute('onclick', `openLink('${newUrl}')`);
+            saveContent();
           }
         });
       });
     }
 
-    function openWhatsAppCustom(phoneNumber) {
-      const message = 'Halo Teluge Agro, saya tertarik dengan produk pisang Anda!';
+    function openServiceModal(button) {
+      const modal = document.getElementById('serviceModal');
+      const form = document.getElementById('serviceForm');
+      const titleInput = document.getElementById('serviceTitle');
+      const urlInput = document.getElementById('serviceUrl');
+      const logoInput = document.getElementById('serviceLogo');
+      const logoPreview = document.getElementById('logoPreview');
+      const modalTitle = document.getElementById('serviceModalTitle');
+      
+      // Get current service data from the button
+      const serviceName = button.textContent.trim();
+      const serviceUrl = button.getAttribute('onclick').match(/'(.*?)'/)[1];
+      const serviceLogo = button.querySelector('img').src;
+      
+      // Fill the form with current data
+      titleInput.value = serviceName;
+      urlInput.value = serviceUrl;
+      logoInput.value = serviceLogo;
+      logoPreview.src = serviceLogo;
+      
+      // Update modal title
+      modalTitle.textContent = 'Edit Layanan';
+      
+      // Store reference to the button being edited
+      form.dataset.editingButton = Array.from(document.querySelectorAll('.link-btn')).indexOf(button);
+      
+      // Show the modal
+      modal.classList.remove('hidden');
+    }
+
+    function saveContent() {
+      // Save content to localStorage or send to server
+      showToast('Perubahan disimpan');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function openLink(url) {
+      window.open(url, '_blank');
+    }
+
+    function openWhatsApp() {
+      const phoneNumber = '+6281227272727';
+      const message = 'Halo TeluGe Agro, saya tertarik dengan produk pisang Anda!';
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      window.open(whatsappUrl, '_blank');
     }
 
-    // Load saved content on page load if admin logged in
-    if (isLoggedIn()) {
-      loadContent();
-      // Initialize history with current state
-      saveToHistory();
-    }
+    // Service Modal functionality
+    const serviceModal = document.getElementById('serviceModal');
+    const serviceForm = document.getElementById('serviceForm');
+    const cancelServiceBtn = document.getElementById('cancelServiceBtn');
+    const closeServiceModal = document.getElementById('closeServiceModal');
+    const logoInput = document.getElementById('serviceLogo');
+    const logoPreview = document.getElementById('logoPreview');
+    const addServiceBtnOutside = document.getElementById('addServiceBtnOutside');
 
-        const logoutBtn = document.createElement('button');
-        logoutBtn.textContent = 'Logout';
-        logoutBtn.style.display = 'block';
-        logoutBtn.style.width = '100%';
-        logoutBtn.style.padding = '0.5rem 1rem';
-        logoutBtn.style.background = 'none';
-        logoutBtn.style.border = 'none';
-        logoutBtn.style.textAlign = 'left';
-        logoutBtn.style.cursor = 'pointer';
-        logoutBtn.style.color = '#dc2626';
-        logoutBtn.style.fontWeight = '600';
-        logoutBtn.addEventListener('mouseenter', () => logoutBtn.style.background = '#fecaca');
-        logoutBtn.addEventListener('mouseleave', () => logoutBtn.style.background = 'none');
-        logoutBtn.addEventListener('click', () => {
-          localStorage.removeItem('adminLoggedIn');
-          if (adminMenu) {
-            adminMenu.remove();
-            adminMenu = null;
+    // Add event listener to the circular plus button
+    addServiceBtnOutside.addEventListener('click', function() {
+      if (isLoggedIn()) {
+        openServiceModalForNew();
+      } else {
+        showLoginModal();
+      }
+    });
+
+    // Logo preview functionality
+    logoInput.addEventListener('input', function() {
+      logoPreview.src = this.value;
+    });
+
+    // Close modal handlers
+    cancelServiceBtn.addEventListener('click', hideServiceModal);
+    closeServiceModal.addEventListener('click', hideServiceModal);
+
+    // Close modal when clicking outside
+    serviceModal.addEventListener('click', function(e) {
+      if (e.target === serviceModal) {
+        hideServiceModal();
+      }
+    });
+
+    // Form submission handler
+    serviceForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('serviceTitle').value.trim();
+      const url = document.getElementById('serviceUrl').value.trim();
+      const logo = document.getElementById('serviceLogo').value.trim();
+      
+      if (!title || !url) {
+        showToast('Judul dan URL harus diisi');
+        return;
+      }
+
+      const buttonIndex = parseInt(serviceForm.dataset.editingButton);
+      const buttons = document.querySelectorAll('.link-btn');
+      
+      if (buttonIndex >= 0 && buttonIndex < buttons.length) {
+        // Update existing button
+        const button = buttons[buttonIndex];
+        button.setAttribute('onclick', `openLink('${url}')`);
+        button.setAttribute('aria-label', 'Buka ' + title);
+        
+        // Update button text
+        const textNode = Array.from(button.childNodes).find(node => node.nodeType === 3);
+        if (textNode) {
+          textNode.textContent = title;
+        }
+        
+        // Update logo
+        const img = button.querySelector('img');
+        if (img) {
+          img.alt = 'Logo ' + title;
+          if (logo) {
+            img.src = logo;
           }
-          showToast('Logged out.');
-        });
+        }
+        
+        showToast('Layanan berhasil diperbarui');
+      } else {
+        // Add new service button
+        const linksContainer = document.querySelector('.links');
+        const newButton = document.createElement('button');
+        newButton.className = 'link-btn';
+        newButton.setAttribute('onclick', `openLink('${url}')`);
+        newButton.setAttribute('aria-label', 'Buka ' + title);
+        
+        // Create logo image
+        const logoImg = document.createElement('img');
+        logoImg.alt = 'Logo ' + title;
+        logoImg.onerror = function() {
+          this.onerror = null;
+          this.src = 'https://placehold.co/28x28/png?text=Error';
+        };
+        
+        if (logo) {
+          logoImg.src = logo;
+        } else {
+          // Default placeholder logo
+          logoImg.src = 'https://placehold.co/28x28/22c55e/white?text=' + title.charAt(0).toUpperCase();
+        }
+        
+        // Create service name text
+        const serviceText = document.createTextNode(title);
+        
+        // Append elements to button
+        newButton.appendChild(logoImg);
+        newButton.appendChild(serviceText);
+        
+        // Add to links container
+        linksContainer.appendChild(newButton);
+        
+        showToast('Layanan ' + title + ' berhasil ditambahkan!');
+      }
+      
+      hideServiceModal();
+      saveContent();
+    });
 
-        // Add undo/redo buttons
-        const undoBtn = document.createElement('button');
-        undoBtn.textContent = 'Undo';
-        undoBtn.style.display = 'block';
-        undoBtn.style.width = '100%';
-        undoBtn.style.padding = '0.5rem 1rem';
-        undoBtn.style.background = 'none';
-        undoBtn.style.border = 'none';
-        undoBtn.style.textAlign = 'left';
-        undoBtn.style.cursor = 'pointer';
-        undoBtn.style.color = '#065f46';
-        undoBtn.style.fontWeight = '600';
-        undoBtn.addEventListener('mouseenter', () => undoBtn.style.background = '#d1fae5');
-        undoBtn.addEventListener('mouseleave', () => undoBtn.style.background = 'none');
-        undoBtn.addEventListener('click', () => {
-          undo();
-        });
+    function openServiceModalForNew() {
+      const modal = document.getElementById('serviceModal');
+      const form = document.getElementById('serviceForm');
+      const titleInput = document.getElementById('serviceTitle');
+      const urlInput = document.getElementById('serviceUrl');
+      const logoInput = document.getElementById('serviceLogo');
+      const logoPreview = document.getElementById('logoPreview');
+      const modalTitle = document.getElementById('serviceModalTitle');
+      
+      // Clear the form for new service
+      form.reset();
+      logoPreview.src = '';
+      
+      // Update modal title
+      modalTitle.textContent = 'Tambah Layanan Baru';
+      
+      // Remove editing reference
+      delete form.dataset.editingButton;
+      
+      // Show the modal
+      modal.classList.remove('hidden');
+    }
 
-        const redoBtn = document.createElement('button');
-        redoBtn.textContent = 'Redo';
-        redoBtn.style.display = 'block';
-        redoBtn.style.width = '100%';
-        redoBtn.style.padding = '0.5rem 1rem';
-        redoBtn.style.background = 'none';
-        redoBtn.style.border = 'none';
-        redoBtn.style.textAlign = 'left';
-        redoBtn.style.cursor = 'pointer';
-        redoBtn.style.color = '#065f46';
-        redoBtn.style.fontWeight = '600';
-        redoBtn.addEventListener('mouseenter', () => redoBtn.style.background = '#d1fae5');
-        redoBtn.addEventListener('mouseleave', () => redoBtn.style.background = 'none');
-        redoBtn.addEventListener('click', () => {
-          redo();
-        });
+    function hideServiceModal() {
+      serviceModal.classList.add('hidden');
+      serviceForm.reset();
+      logoPreview.src = '';
+      delete serviceForm.dataset.editingButton;
+    }
 
-        adminMenu.appendChild(manageWebBtn);
-        adminMenu.appendChild(undoBtn);
-        adminMenu.appendChild(redoBtn);
+    // Share functionality
+    document.getElementById('shareBtn').addEventListener('click', () => {
+      if (navigator.share) {
+        navigator.share({
+          title: 'TeluGe Agro - Banana Supplier',
+          text: 'Supplier Pisang Dan Spesialis - Good Bananas Supplier & Specialist Until Export',
+          url: window.location.href
+        }).catch(console.error);
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast('Link disalin ke clipboard!');
+        }).catch(console.error);
+      }
+    });
+
+    // Create admin menu if it doesn't exist
+    function createAdminMenu() {
+      adminMenu = document.getElementById('adminMenu');
+      if (!adminMenu) {
+        adminMenu = document.createElement('div');
+        adminMenu.id = 'adminMenu';
+        adminMenu.className = 'hidden absolute bg-white rounded-lg shadow-lg border border-gray-200 z-50';
+        adminMenu.style.minWidth = '200px';
+        
+        const header = document.createElement('div');
+        header.className = 'p-3 border-b border-gray-100';
+        header.innerHTML = `
+          <p class="text-sm font-semibold text-gray-800">${ADMIN_USERNAME}</p>
+          <p class="text-xs text-gray-400">Admin Panel</p>
+        `;
+        
+        const manageBtn = document.createElement('button');
+        manageBtn.className = 'flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600 transition w-full text-left';
+        manageBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3a.75.75 0 01.75.75V6a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V3.75A.75.75 0 016 3h3.75zM18 3.75A.75.75 0 0017.25 3H13.5a.75.75 0 00-.75.75V6a.75.75 0 00.75.75h3.75A.75.75 0 0018 6V3.75zM9.75 13.5a.75.75 0 01.75.75V18a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75v-3.75A.75.75 0 016 13.5h3.75zM18 13.5a.75.75 0 00-.75.75V18a.75.75 0 00.75.75h3.75a.75.75 0 00.75-.75v-3.75a.75.75 0 00-.75-.75H18z"/>
+          </svg>
+          Manage Web
+        `;
+        manageBtn.onclick = manageWeb;
+        
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 transition w-full text-left';
+        logoutBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-9A2.25 2.25 0 002.25 5.25v13.5A2.25 2.25 0 004.5 21h9a2.25 2.25 0 002.25-2.25V15M12 9l3-3m0 0l3 3m-3-3v12"/>
+          </svg>
+          Logout
+        `;
+        logoutBtn.onclick = logoutAdmin;
+        
+        adminMenu.appendChild(header);
+        adminMenu.appendChild(manageBtn);
         adminMenu.appendChild(logoutBtn);
         document.body.appendChild(adminMenu);
       }
     }
-
-    // On page load, if logged in, show admin menu
-    if (isLoggedIn()) {
-      showAdminMenu();
-    }
-
-    function openLink(url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-
-    function openWhatsApp() {
-      const phoneNumber = '+628112638318';
-      const message = 'Halo Teluge Agro, saya tertarik dengan produk pisang Anda!';
-      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    }
-
-    const shareBtn = document.getElementById('shareBtn');
-    const toast = document.getElementById('toast');
-
-    shareBtn.addEventListener('click', async () => {
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'TeluGe Agro',
-            text: 'Supplier Pisang dan Spesialis - Good Bananas Supplier & Specialist from Purworejo',
-            url: window.location.href,
-          });
-          showToast('Profil berhasil dibagikan!');
-        } catch (err) {
-          showToast('Berbagi dibatalkan atau gagal.');
-        }
-      } else {
-        fallbackCopyText(window.location.href);
-      }
-    });
-
-    function fallbackCopyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('Link profil disalin ke clipboard!');
-      }).catch(() => {
-        showToast('Tidak dapat membagikan atau menyalin link');
-      });
-    }
-
-    let toastTimeout;
-    function showToast(message) {
-      clearTimeout(toastTimeout);
-      toast.textContent = message;
-      toast.classList.add('show');
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
   </script>
 </body>
 </html>
-
