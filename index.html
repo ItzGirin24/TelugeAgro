@@ -239,6 +239,14 @@
       opacity: 1;
       pointer-events: auto;
     }
+
+    .drag-handle {
+      flex-shrink: 0;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -263,11 +271,11 @@
 
     <nav class="links" aria-label="Tautan Aplikasi dan Media Sosial">
       <button class="link-btn" onclick="openLink('https://www.tokopedia.com/telugeagro')" aria-label="Buka Tokopedia TeluGe Agro">
-        <img src="Logo Tokopedia (1).png" alt="Logo hijau Tokopedia berbentuk burung hantu" onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d597cd25-28d1-487d-abd7-4e7cc6d246f0.png';"/>
+        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3a90d8c1-602d-4308-90ab-47c3f959080f.png" alt="Logo hijau Tokopedia berbentuk burung hantu" onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d597cd25-28d1-487d-abd7-4e7cc6d246f0.png';"/>
         Tokopedia
       </button>
       <button class="link-btn" onclick="openLink('https://shopee.co.id/t3luge_agro?is_from_login=true')" aria-label="Buka Shopee TeluGe Agro">
-        <img src="Logo Shopee.png" alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee_logo.svg" alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
         Shopee
       </button>
       <button class="link-btn" onclick="openLink('https://www.instagram.com/teluge_agro?igsh=cXR3YWtxaDNnYjJw')" aria-label="Buka Instagram TeluGe Agro">
@@ -283,7 +291,7 @@
         Facebook
       </button>
       <button class="link-btn" onclick="openLink('https://www.google.com/maps/place/Teluge+Agro+-+Supplier+Pisang+dan+Spesialis/@-7.7408703,109.9370574,692m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e7ac390dce0a6eb:0xf0cb3eb8af2c7312!8m2!3d-7.7408703!4d109.9370574!16s%2Fg%2F11hfg1m849?entry=ttu&g_ep=EgoyMDI5MDgyNS4wIKXMDSoASAFQAw%3D%3D')" aria-label="Buka Google Maps TeluGe Agro">
-        <img src="/Logo Maps.png" alt="Logo Google Maps berwarna merah" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Google_Maps_icon.svg" alt="Logo Google Maps berwarna merah" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
         Google Maps
       </button>
     </nav>
@@ -441,6 +449,9 @@
         // Enable URL editing on double click
         enableURLEditing(linksContainer);
 
+        // Enable logo editing on double click for menu logos
+        enableLogoEditing(linksContainer);
+
         // Show border for container and avatar
         container.style.border = '2px dashed #34d399';
         avatarImg.style.outline = '2px dashed #34d399';
@@ -464,6 +475,9 @@
         // Remove drag and drop handlers
         disableDragAndDropLinks(linksContainer);
 
+        // Remove logo editing handlers
+        disableLogoEditing(linksContainer);
+
         // Remove avatar image outline and cursor
         avatarImg.style.outline = 'none';
         avatarImg.style.cursor = 'default';
@@ -477,23 +491,90 @@
       }
     }
 
-    // Drag and drop for links container buttons
+    // Enhanced drag and drop for links container buttons with better mobile support
     function enableDragAndDropLinks(container) {
       let dragSrcEl = null;
+      let touchStartY = 0;
+      let touchStartX = 0;
+      let isDragging = false;
+      let dragOffsetY = 0;
+      let dragOffsetX = 0;
+      let ghostElement = null;
 
       function handleDragStart(e) {
         dragSrcEl = this;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.outerHTML);
+        if (e.dataTransfer) {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/html', this.outerHTML);
+        }
         this.classList.add('dragElem');
+        isDragging = true;
+        
+        // Create visual feedback for desktop
+        this.style.opacity = '0.7';
+      }
+
+      function handleTouchStart(e) {
+        const touch = e.touches[0];
+        touchStartY = touch.clientY;
+        touchStartX = touch.clientX;
+        
+        // Get the position of the element relative to viewport
+        const rect = this.getBoundingClientRect();
+        dragOffsetY = touch.clientY - rect.top;
+        dragOffsetX = touch.clientX - rect.left;
+        
+        handleDragStart.call(this, e);
+        e.preventDefault();
+        
+        // Create ghost element for mobile dragging
+        createGhostElement(this, touch.clientX, touch.clientY);
       }
 
       function handleDragOver(e) {
         if (e.preventDefault) {
           e.preventDefault();
         }
-        e.dataTransfer.dropEffect = 'move';
+        if (e.dataTransfer) {
+          e.dataTransfer.dropEffect = 'move';
+        }
         return false;
+      }
+
+      function handleTouchMove(e) {
+        if (!isDragging) return;
+        
+        const touch = e.touches[0];
+        const touchY = touch.clientY;
+        const touchX = touch.clientX;
+        
+        // Update ghost element position
+        if (ghostElement) {
+          ghostElement.style.top = (touchY - dragOffsetY) + 'px';
+          ghostElement.style.left = (touchX - dragOffsetX) + 'px';
+        }
+        
+        // Calculate movement for scroll prevention
+        const deltaY = Math.abs(touchY - touchStartY);
+        const deltaX = Math.abs(touchX - touchStartX);
+        
+        // Prevent scrolling if user is intentionally dragging
+        if (deltaY > 5 || deltaX > 5) {
+          e.preventDefault();
+        }
+        
+        // Find drop target
+        const dropTarget = findDropTarget(touchX, touchY);
+        if (dropTarget && dropTarget !== dragSrcEl) {
+          dropTarget.classList.add('over');
+        }
+        
+        // Remove 'over' class from other elements
+        container.querySelectorAll('button.link-btn.over').forEach(item => {
+          if (item !== dropTarget) {
+            item.classList.remove('over');
+          }
+        });
       }
 
       function handleDragEnter() {
@@ -508,34 +589,223 @@
         if (e.stopPropagation) {
           e.stopPropagation();
         }
-        if (dragSrcEl !== this) {
-          this.parentNode.removeChild(dragSrcEl);
-          const dropHTML = e.dataTransfer.getData('text/html');
-          this.insertAdjacentHTML('beforebegin', dropHTML);
-          const dropElem = this.previousSibling;
-          addDnDHandlersLinks(dropElem);
+        
+        let dropTarget = this;
+        if (!isDragging) return false;
+        
+        if (dragSrcEl !== dropTarget) {
+          // Swap positions instead of inserting before/after
+          const parent = dropTarget.parentNode;
+          const dragSrcNextSibling = dragSrcEl.nextSibling;
+          const dropTargetNextSibling = dropTarget.nextSibling;
+          
+          // Insert dropTarget where dragSrcEl was
+          if (dragSrcNextSibling) {
+            parent.insertBefore(dropTarget, dragSrcNextSibling);
+          } else {
+            parent.appendChild(dropTarget);
+          }
+          
+          // Insert dragSrcEl where dropTarget was
+          if (dropTargetNextSibling) {
+            parent.insertBefore(dragSrcEl, dropTargetNextSibling);
+          } else {
+            parent.appendChild(dragSrcEl);
+          }
         }
-        this.classList.remove('over');
+        
+        cleanupAfterDrop();
         return false;
       }
 
+      function handleTouchEnd(e) {
+        if (!isDragging) return;
+        
+        const touch = e.changedTouches[0];
+        const dropTarget = findDropTarget(touch.clientX, touch.clientY);
+        
+        if (dropTarget && dropTarget !== dragSrcEl) {
+          // Swap positions instead of inserting before/after
+          const parent = dropTarget.parentNode;
+          const dragSrcNextSibling = dragSrcEl.nextSibling;
+          const dropTargetNextSibling = dropTarget.nextSibling;
+          
+          // Insert dropTarget where dragSrcEl was
+          if (dragSrcNextSibling) {
+            parent.insertBefore(dropTarget, dragSrcNextSibling);
+          } else {
+            parent.appendChild(dropTarget);
+          }
+          
+          // Insert dragSrcEl where dropTarget was
+          if (dropTargetNextSibling) {
+            parent.insertBefore(dragSrcEl, dropTargetNextSibling);
+          } else {
+            parent.appendChild(dragSrcEl);
+          }
+        }
+        
+        cleanupAfterDrop();
+      }
+
       function handleDragEnd() {
-        this.classList.remove('dragElem');
-        const items = container.querySelectorAll('button.link-btn');
-        items.forEach(function (item) {
+        cleanupAfterDrop();
+      }
+
+      function createGhostElement(element, x, y) {
+        // Remove existing ghost element if any
+        if (ghostElement) {
+          document.body.removeChild(ghostElement);
+        }
+        
+        ghostElement = element.cloneNode(true);
+        ghostElement.style.position = 'fixed';
+        ghostElement.style.zIndex = '1000';
+        ghostElement.style.opacity = '0.8';
+        ghostElement.style.pointerEvents = 'none';
+        ghostElement.style.transform = 'scale(1.05)';
+        ghostElement.style.boxShadow = '0 8px 25px rgba(0,0,0,0.3)';
+        ghostElement.style.top = (y - dragOffsetY) + 'px';
+        ghostElement.style.left = (x - dragOffsetX) + 'px';
+        ghostElement.style.width = element.offsetWidth + 'px';
+        
+        document.body.appendChild(ghostElement);
+      }
+
+      function findDropTarget(x, y) {
+        // Get all potential drop targets
+        const targets = container.querySelectorAll('button.link-btn');
+        let closestTarget = null;
+        let closestDistance = Infinity;
+        
+        // Find the closest target to the touch point
+        targets.forEach(target => {
+          if (target === dragSrcEl) return;
+          
+          const rect = target.getBoundingClientRect();
+          const centerY = rect.top + rect.height / 2;
+          const centerX = rect.left + rect.width / 2;
+          
+          // Calculate distance to center of target
+          const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+          
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestTarget = target;
+          }
+        });
+        
+        return closestTarget;
+      }
+
+      function cleanupAfterDrop() {
+        // Remove ghost element
+        if (ghostElement) {
+          document.body.removeChild(ghostElement);
+          ghostElement = null;
+        }
+        
+        // Reset drag source element
+        if (dragSrcEl) {
+          dragSrcEl.classList.remove('dragElem');
+          dragSrcEl.style.opacity = '1';
+        }
+        
+        // Remove 'over' class from all elements
+        container.querySelectorAll('button.link-btn.over').forEach(item => {
           item.classList.remove('over');
         });
+        
+        dragSrcEl = null;
+        isDragging = false;
       }
 
       function addDnDHandlersLinks(elem) {
         elem.setAttribute('draggable', 'true');
+        
+        // Add drag handle for mobile (small icon on the right)
+        if (!elem.querySelector('.drag-handle')) {
+          const dragHandle = document.createElement('span');
+          dragHandle.className = 'drag-handle';
+          dragHandle.innerHTML = '≡';
+          dragHandle.style.marginLeft = 'auto';
+          dragHandle.style.padding = '0 8px';
+          dragHandle.style.cursor = 'move';
+          dragHandle.style.opacity = '0.7';
+          dragHandle.style.fontSize = '16px';
+          dragHandle.style.userSelect = 'none';
+          elem.appendChild(dragHandle);
+        }
+        
+        // Desktop events
         elem.addEventListener('dragstart', handleDragStart, false);
         elem.addEventListener('dragenter', handleDragEnter, false);
         elem.addEventListener('dragover', handleDragOver, false);
         elem.addEventListener('dragleave', handleDragLeave, false);
         elem.addEventListener('drop', handleDrop, false);
         elem.addEventListener('dragend', handleDragEnd, false);
+        
+        // Mobile touch events - attach to the entire element for better mobile support
+        elem.addEventListener('touchstart', handleTouchStart, {passive: false});
+        elem.addEventListener('touchmove', handleTouchMove, {passive: false});
+        elem.addEventListener('touchend', handleTouchEnd, false);
+        elem.addEventListener('touchcancel', handleDragEnd, false);
       }
+
+      function removeDnDHandlersLinks(elem) {
+        elem.removeAttribute('draggable');
+
+        // Remove drag handle if exists
+        const dragHandle = elem.querySelector('.drag-handle');
+        if (dragHandle) {
+          dragHandle.remove();
+        }
+
+        // Remove desktop events
+        elem.removeEventListener('dragstart', handleDragStart, false);
+        elem.removeEventListener('dragenter', handleDragEnter, false);
+        elem.removeEventListener('dragover', handleDragOver, false);
+        elem.removeEventListener('dragleave', handleDragLeave, false);
+        elem.removeEventListener('drop', handleDrop, false);
+        elem.removeEventListener('dragend', handleDragEnd, false);
+        
+        // Remove mobile touch events from the entire element
+        elem.removeEventListener('touchstart', handleTouchStart, {passive: false});
+        elem.removeEventListener('touchmove', handleTouchMove, {passive: false});
+        elem.removeEventListener('touchend', handleTouchEnd, false);
+        elem.removeEventListener('touchcancel', handleDragEnd, false);
+      }
+
+      // Add CSS for better mobile drag experience
+      const style = document.createElement('style');
+      style.textContent = `
+        .dragElem {
+          transform: scale(1.02) !important;
+          box-shadow: 0 8px 25px rgba(52, 211, 153, 0.4) !important;
+          z-index: 100 !important;
+        }
+        
+        .over {
+          border: 2px dashed #34d399 !important;
+          background-color: #d1fae5 !important;
+        }
+        
+        .drag-handle:hover {
+          opacity: 1 !important;
+        }
+        
+        @media (max-width: 480px) {
+          .drag-handle {
+            font-size: 18px !important;
+            padding: 0 10px !important;
+          }
+          
+          button.link-btn.dragElem {
+            transform: scale(1.05) !important;
+          }
+        }
+      `;
+      document.head.appendChild(style);
 
       const items = container.querySelectorAll('button.link-btn');
       items.forEach(addDnDHandlersLinks);
@@ -544,13 +814,7 @@
     function disableDragAndDropLinks(container) {
       const items = container.querySelectorAll('button.link-btn');
       items.forEach(function (item) {
-        item.removeAttribute('draggable');
-        item.removeEventListener('dragstart', null);
-        item.removeEventListener('dragenter', null);
-        item.removeEventListener('dragover', null);
-        item.removeEventListener('dragleave', null);
-        item.removeEventListener('drop', null);
-        item.removeEventListener('dragend', null);
+        removeDnDHandlersLinks(item);
       });
     }
 
@@ -560,6 +824,33 @@
       if (url) {
         const avatarImg = document.querySelector('.avatar img');
         avatarImg.src = url;
+        saveContent();
+      }
+    }
+
+    // Logo editing functionality for menu logos
+    function enableLogoEditing(linksContainer) {
+      linksContainer.querySelectorAll('button.link-btn img').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.style.outline = '1px dashed #34d399';
+        img.addEventListener('click', onMenuLogoClick);
+      });
+    }
+
+    function disableLogoEditing(linksContainer) {
+      linksContainer.querySelectorAll('button.link-btn img').forEach(img => {
+        img.style.cursor = 'default';
+        img.style.outline = 'none';
+        img.removeEventListener('click', onMenuLogoClick);
+      });
+    }
+
+    function onMenuLogoClick(e) {
+      e.stopPropagation(); // Prevent triggering the button click
+      const img = this;
+      const url = prompt('Masukkan URL gambar logo baru untuk menu ini:');
+      if (url) {
+        img.src = url;
         saveContent();
       }
     }
