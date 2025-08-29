@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil Bio Profesional - TeluGe Agro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #86efac, #4ade80);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+    .container {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 380px; /* Lebih sempit untuk tampilan portrait */
+      min-height: 600px; /* Tinggi untuk portrait */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      margin: 0 auto;
+    }
+    
+    /* Desktop/Large screen styles */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 600px;
+        padding: 3rem 2rem 3.5rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      p.desc {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+      }
+      
+      .avatar {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1.5rem;
+      }
+      
+      button.link-btn {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+      }
+      
+      button.link-btn img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    
+    /* Mobile optimization */
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+        padding: 1.5rem 1rem 2rem;
+        border-radius: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      p.desc {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .avatar {
+        width: 80px;
+        height: 极80px;
+        margin-bottom: 1rem;
+      }
+      
+      button.link-btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+      }
+      
+      button.link-btn img {
+        width: 24px;
+        height: 24px;
+      }
+      
+      .share-btn {
+        width: 40px;
+        height: 40px;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+      
+      .share-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    
+    /* Base styles */
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #34d399;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4极px 8px rgb(56 189 138 / 0.35);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .avatar:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 15px rgb(52 211 153 / 0.6);
+    }
+    h1 {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    p.desc {
+      font-weight: 500;
+      color: #065f46;
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    button.link-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      background: #22c55e;
+      color: white;
+      font-weight: 600;
+      padding: 0.85rem 1.5rem;
+      border-radius: 9999px;
+      border: none;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 10px rgb(34 197 94 / 0.3);
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+    }
+    button.link-btn:hover, button.link-btn:focus {
+      background-color: #16a34a;
+      box-shadow: 0 12px 20px rgb(22 163 74 / 0.6);
+      transform: translateY(-2px);
+      outline: none;
+    }
+    button.link-btn img {
+      width: 28px;
+      height: 28px;
+      border-radius: 0.375rem;
+      margin-right: 1rem;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+      transition: transform 0.3s ease;
+    }
+    button.link-btn:hover img {
+      transform: scale(1.15);
+    }
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.85rem;
+      color: #065f46cc;
+      user-select: none;
+    }
+    /* Share button on top right */
+    .share-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: white;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border: 2px solid transparent;
+    }
+    .share-btn:hover {
+      background-color: #4ade80;
+      border-color: #22c55e;
+    }
+    .share-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: #065f46;
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.3s ease;
+    }
+    .share-btn:hover svg {
+      stroke: white;
+    }
+    /* Interactive alert popup */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4ade80;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 15px rgba(34,197,94,0.7);
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 99;
+    }
+    .toast.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <button aria-label="Bagikan Profil" title="Bagikan Profil" class="share-btn" id="shareBtn">
+    <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" >
+      <path d="M4 12v1a3 3 0 003 3h10M16 8l5-5m0 0l-5-5m5 5H9" />
+    </svg>
+  </button>
+
+  <main role="main" class="container" aria-label="Profil bio TeluGe Agro">
+    <div class="avatar" tabindex="0" aria-label="Logo perusahaan TeluGe Agro">
+      <img 
+        src="/logo Teluge.jpg" 
+        alt="Logo TeluGe Agro dengan tulisan TeluGe Agro dan ilustrasi pisang berwarna hijau dan oranye" 
+        width="100" height="100"
+        onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c55cbda9-aa84-46e6-9466-e6d6f80a0d34.png';"
+      />
+    </div>
+
+    <h1>@telugeagro</h1>
+    <p class="desc">Supplier Pisang Dan Spesialis - Good Bananas Supplier & Specialist Until Export, Purworejo Central Java ID</p>
+
+    <nav class="links" aria-label="Tautan Aplikasi dan Media Sosial">
+      <button class="link-btn" onclick="openLink('https://www.tokopedia.com/telugeagro')" aria-label="Buka Tokopedia TeluGe Agro">
+        <img src="Logo Tokopedia.jpg" alt="Logo hijau Tokopedia berbentuk burung hantu" onerror="this.onerror=null; this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d597cd25-28d1-487d-abd7-4e7cc6d246f0.png';"/>
+        Tokopedia
+      </button>
+      <button class="link-btn" onclick="openLink('https://shopee.co.id/t3luge_agro?is_from_login=true')" aria-label="Buka Shopee TeluGe Agro">
+        <img src="Logo Shopee.png" alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        Shopee
+      </button>
+      <button class="link-btn" onclick="openLink('https://www.instagram.com/teluge_agro?igsh=cXR3YWtxaDNnYjJw')" aria-label="Buka Instagram TeluGe Agro">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Logo Instagram berwarna gradasi merah, ungu, dan oranye membentuk kamera" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        Instagram
+      </button>
+      <button class="link-btn" onclick="openWhatsApp()" aria-label="Hubungi WhatsApp TeluGe Agro">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Logo WhatsApp berwarna hijau" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        WhatsApp
+      </button>
+      <button class="link-btn" onclick="openLink('https://www.facebook.com/TelugeAgro?rdid=ba1ZrBdIXWKmtGmH&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CPJqr4wzQ%2F%23')" aria-label="Buka Facebook TeluGe Agro">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Logo Facebook berwarna biru" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        Facebook
+      </button>
+      <button class="link-btn" onclick="openLink('https://www.google.com/maps/place/Teluge+Agro+-+Supplier+Pisang+dan+Spesialis/@-7.7408703,109.9370574,692m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e7ac390dce0a6eb:0xf0cb3eb8af2c7312!8m2!3d-7.7408703!4d109.9370574!16s%2Fg%2F11hfg1m849?entry=ttu&g_ep=EgoyMDI5MDgyNS4wIKXMDSoASAFQAw%3D%3D')" aria-label="Buka Google Maps TeluGe Agro">
+        <img src="/Logo Maps.png" alt="Logo Google Maps berwarna merah" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        Google Maps
+      </button>
+    </nav>
+  </main>
+
+  <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script>
+    function openLink(url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    function openWhatsApp() {
+      const phoneNumber = '+628112638318';
+      const message = 'Halo Teluge Agro, saya tertarik dengan produk pisang Anda!';
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    const shareBtn = document.getElementById('shareBtn');
+    const toast = document.getElementById('toast');
+
+    shareBtn.addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'TeluGe Agro',
+            text: 'Supplier Pisang dan Spesialis - Good Bananas Supplier & Specialist from Purworejo',
+            url: window.location.href,
+          });
+          showToast('Profil berhasil dibagikan!');
+        } catch (err) {
+          showToast('Berbagi dibatalkan atau gagal.');
+        }
+      } else {
+        fallbackCopyText(window.location.href);
+      }
+    });
+
+    function fallbackCopyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Link profil disalin ke clipboard!');
+      }).catch(() => {
+        showToast('Tidak dapat membagikan atau menyalin link');
+      });
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      clearTimeout(toastTimeout);
+      toast.textContent = message;
+      toast.classList.add('show');
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
+
