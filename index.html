@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -6,6 +6,9 @@
   <title>Teluge Agro - Banana Suplayer</title>
   <link rel="icon" href="logo Teluge.jpg" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
     body {  
@@ -32,7 +35,7 @@
       margin: 0 auto;
     }
     
- 
+    /* Desktop/Large screen styles */
     @media (min-width: 768px) {
       .container {
         max-width: 600px;
@@ -192,7 +195,7 @@
       color: #065f46cc;
       user-select: none;
     }
-
+    /* Share button on top right */
     .share-btn {
       position: fixed;
       top: 1rem;
@@ -225,26 +228,53 @@
     .share-btn:hover svg {
       stroke: white;
     }
- 
+    /* Interactive alert popup - Appears at top of content container */
     .toast {
-      position: fixed;
-      bottom: 2rem;
+      position: absolute;
+      top: 1rem;
       left: 50%;
       transform: translateX(-50%);
       background: #4ade80;
       color: white;
       padding: 1rem 1.5rem;
       border-radius: 1rem;
-      box-shadow: 0 8px 15px rgba(34,197,94,0.7);
+      box-shadow: 0 8px 25px rgba(34,197,94,0.8);
       font-weight: 600;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
-      z-index: 99;
+      transition: all 0.4s ease;
+      z-index: 100; /* High z-index but within container context */
+      max-width: 90%;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.2);
     }
     .toast.show {
       opacity: 1;
       pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+      animation: toastSlideIn 0.4s ease;
+    }
+    
+    @keyframes toastSlideIn {
+      0% {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Mobile optimization for toast */
+    @media (max-width: 480px) {
+      .toast {
+        top: 0.5rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        max-width: 95%;
+      }
     }
 
     .drag-handle {
@@ -280,13 +310,21 @@
   </style>
 </head>
 <body>
+  <!-- Loading overlay -->
+  <div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-90 flex justify-center items-center z-50">
+    <div class="text-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+      <p class="text-green-700 font-semibold">Memuat konten...</p>
+    </div>
+  </div>
+
   <button aria-label="Bagikan Profil" title="Bagikan Profil" class="share-btn" id="shareBtn">
     <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" >
       <path d="M4 12v1a3 3 0 003 3h10M16 8l5-5m0 0l-5-5m5 5H9" />
     </svg>
   </button>
 
-  <main role="main" class="container" aria-label="Profil bio TeluGe Agro">
+  <main role="main" class="container" aria-label="Profil bio TeluGe Agro" style="display: none;">
     <div class="avatar" tabindex="0" aria-label="Logo perusahaan TeluGe Agro">
       <img src="logo Teluge.jpg" alt="Logo Teluge Agro" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
     </div>
@@ -300,7 +338,7 @@
         Tokopedia
       </button>
       <button class="link-btn" onclick="openLink('https://shopee.co.id/t3luge_agro?is_from_login=true')" aria-label="Buka Shopee TeluGe Agro">
-        <img src="Logo Shopee.png" alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
+        <img src="/Logo Shopee.png " alt="Logo oranye Shopee berupa tas belanja" onerror="this.onerror=null; this.src='https://placehold.co/28x28/png?text=Error';"/>
         Shopee
       </button>
       <button class="link-btn" onclick="openLink('https://www.instagram.com/teluge_agro?igsh=cXR3YWtxaDNnYjJw')" aria-label="Buka Instagram TeluGe Agro">
@@ -321,13 +359,13 @@
       </button>
     </nav>
 
-   
+    <!-- Circular Plus Button Outside Admin Panel -->
     <button id="addServiceBtnOutside" aria-label="Tambah Layanan" title="Tambah Layanan">+</button>
 
   </main>
+  <!-- Admin Dropdown Menu -->
 
-
-
+  <!-- Service Edit/Add Modal -->
   <div id="serviceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
     <div class="bg-white rounded-lg shadow-lg p-6 w-80 max-w-full relative">
       <h2 id="serviceModalTitle" class="text-lg font-bold mb-4 text-green-700">Edit Layanan</h2>
@@ -358,7 +396,7 @@
       <p class="text-sm font-semibold text-gray-800">TelugeAgro_Admin</p>
       <p class="text-xs text-gray-400">Admin Panel</p>
     </div>
-
+    <!-- Items -->
     <div class="flex flex-col">
       <button onclick="manageWeb()" 
         class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
@@ -366,6 +404,13 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3a.75.75 0 01.75.75V6a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V3.75A.75.75 0 016 3h3.75zM18 3.75A.75.75 0 0017.25 3H13.5a.75.75 0 00-.75.75V6a.75.75 0 00.75.75h3.75A.75.75 0 0018 6V3.75zM9.75 13.5a.75.75 0 01.75.75V18a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75v-3.75A.75.75 0 016 13.5h3.75zM18 13.5a.75.75 0 00-.75.75V18a.75.75 0 00.75.75h3.75a.75.75 0 00.75-.75v-3.75a.75.75 0 00-.75-.75H18z" />
         </svg>
         Manage Web
+      </button>
+      <button id="addServiceBtn" 
+        style="display:none"
+        class="flex items-center justify-center gap-2 px-4 py-3 text-white bg-blue-600 rounded-full hover:bg-blue-700 transition w-12 h-12 mx-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
       </button>
       <button onclick="logoutAdmin()" 
         class="flex items-center gap-2 px-4 py-3 text-red-600 hover:bg-red-50 transition">
@@ -411,7 +456,7 @@
     </svg>
   </button>
 
-
+  <!-- Login Modal -->
   <div id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white rounded-lg p-6 w-80 max-w-full shadow-lg">
       <h2 id="loginTitle" class="text-xl font-bold mb-4 text-center text-green-700">Admin Login</h2>
@@ -430,7 +475,7 @@
   <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
   <script>
-
+    // Hardcoded credentials for demo
     const ADMIN_USERNAME = 'teluge@admin.app';
     const ADMIN_PASSWORD = 'teluge2025';
 
@@ -495,7 +540,7 @@
       }
     });
 
- 
+    // Admin menu UI
     let adminMenu;
 
     function toggleAdminMenu() {
@@ -503,40 +548,39 @@
         createAdminMenu();
       }
 
+      // Always ensure admin menu is properly positioned
+      const accountBtnRect = document.getElementById('accountBtn').getBoundingClientRect();
+      const menuWidth = 200;
+      const menuHeight = adminMenu.offsetHeight || 100;
+
+      // Position menu so its top aligns with account button bottom plus margin
+      let top = accountBtnRect.bottom + 6;
+      let right = window.innerWidth - accountBtnRect.right;
+
+      // Ensure menu does not overflow viewport vertically
+      if (top + menuHeight > window.innerHeight - 10) {
+        top = accountBtnRect.top - menuHeight - 6;
+        if (top < 10) {
+          top = 10;
+        }
+      }
+
+      // Apply fixed positioning
+      adminMenu.style.position = 'fixed';
+      adminMenu.style.top = top + 'px';
+      adminMenu.style.right = right + 'px';
+      adminMenu.style.left = 'auto';
+      adminMenu.style.zIndex = '1000';
+
       if (adminMenu.style.display === 'none' || adminMenu.classList.contains('minimized')) {
-    
+        // Show admin menu
         adminMenu.style.display = 'block';
         adminMenu.classList.remove('minimized');
         
-       
-        const accountBtnRect = document.getElementById('accountBtn').getBoundingClientRect();
-        const menuWidth = 200; 
-        const menuHeight = adminMenu.offsetHeight || 100; // approximate height
-
-       
-        let top = accountBtnRect.bottom + 6; // 6px margin below account button
-
-        // Align menu's right edge with account button's right edge
-        let right = window.innerWidth - accountBtnRect.right; // calculate right position
-
-        // Ensure menu does not overflow viewport vertically
-        if (top + menuHeight > window.innerHeight - 10) {
-          top = accountBtnRect.top - menuHeight - 6; // position above account button with margin
-          if (top < 10) {
-            top = 10; // fallback minimum margin from top viewport edge
-          }
-        }
-
-        // Apply fixed positioning with right and top offsets
-        adminMenu.style.position = 'fixed';
-        adminMenu.style.top = top + 'px';
-        adminMenu.style.right = right + 'px';
-        adminMenu.style.left = 'auto'; // reset left to auto to avoid conflicts
-
-        // Add click outside handler to close menu
+        // Add click outside handler to close menu with a small delay
         setTimeout(() => {
           document.addEventListener('click', handleClickOutside);
-        }, 0);
+        }, 10);
       } else {
         // Hide admin menu
         hideAdminMenu();
@@ -569,11 +613,11 @@
       const container = document.querySelector('.container');
       const linksContainer = container.querySelector('.links');
       const avatarImg = container.querySelector('.avatar img');
-      const mainTitle = container.querySelector('h1');
-      const desc = container.querySelector('p.desc');
+      const mainTitle = document.querySelector('h1');
+      const desc = document.querySelector('p.desc');
 
       if (editingMode) {
-        showToast('Editing mode enabled');
+        showToast('Mode editing diaktifkan');
 
         // Enable contenteditable for main title and description
         mainTitle.setAttribute('contenteditable', 'true');
@@ -622,7 +666,6 @@
                 e.stopPropagation();
                 if (confirm('Yakin ingin menghapus layanan ini?')) {
                   btn.remove();
-                  saveContent();
                 }
               });
               btn.appendChild(deleteIcon);
@@ -644,8 +687,43 @@
         // Add click handler to avatar image to change logo
         avatarImg.addEventListener('click', onChangeLogoClick);
 
+        // Add Save button
+        const saveButton = document.createElement('button');
+        saveButton.id = 'saveButton';
+        saveButton.className = 'save-btn';
+        saveButton.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Simpan Perubahan
+        `;
+        saveButton.onclick = function() {
+          saveContent();
+          showToast('Perubahan disimpan!');
+        };
+        
+        // Position save button at the bottom of the container
+        saveButton.style.position = 'fixed';
+        saveButton.style.bottom = '20px';
+        saveButton.style.left = '50%';
+        saveButton.style.transform = 'translateX(-50%)';
+        saveButton.style.zIndex = '1000';
+        saveButton.style.backgroundColor = '#22c55e';
+        saveButton.style.color = 'white';
+        saveButton.style.padding = '12px 24px';
+        saveButton.style.borderRadius = '9999px';
+        saveButton.style.border = 'none';
+        saveButton.style.fontWeight = '600';
+        saveButton.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.5)';
+        saveButton.style.cursor = 'pointer';
+        saveButton.style.display = 'flex';
+        saveButton.style.alignItems = 'center';
+        saveButton.style.gap = '8px';
+        
+        document.body.appendChild(saveButton);
+
       } else {
-        showToast('Editing mode disabled');
+        showToast('Mode editing dinonaktifkan');
 
         // Remove contenteditable attributes
         mainTitle.removeAttribute('contenteditable');
@@ -659,6 +737,12 @@
           const editIcon = btn.querySelector('.edit-icon');
           if (editIcon) {
             editIcon.remove();
+          }
+          
+          // Remove delete icons
+          const deleteIcon = btn.querySelector('.delete-icon');
+          if (deleteIcon) {
+            deleteIcon.remove();
           }
         });
 
@@ -677,7 +761,11 @@
 
         container.style.border = 'none';
 
-        saveContent();
+        // Remove Save button
+        const saveButton = document.getElementById('saveButton');
+        if (saveButton) {
+          saveButton.remove();
+        }
       }
     }
 
@@ -1092,10 +1180,6 @@
       modal.classList.remove('hidden');
     }
 
-    function saveContent() {
-      // Save content to localStorage or send to server
-      showToast('Perubahan disimpan');
-    }
 
     function showToast(message) {
       const toast = document.getElementById('toast');
@@ -1111,10 +1195,10 @@
     }
 
     function openWhatsApp() {
-      const phoneNumber = '+6281227272727';
-      const message = 'Halo TeluGe Agro, saya tertarik dengan produk pisang Anda!';
+      const phoneNumber = '628112638318'; // Format tanpa +, hanya angka
+      const message = 'Halo Teluge Agro, saya tertarik dengan produk pisang Anda!';
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
 
     // Service Modal functionality
@@ -1144,10 +1228,14 @@
     cancelServiceBtn.addEventListener('click', hideServiceModal);
     closeServiceModal.addEventListener('click', hideServiceModal);
 
-    // Close modal when clicking outside
+    // Close modal when clicking outside - improved to prevent accidental closing
     serviceModal.addEventListener('click', function(e) {
       if (e.target === serviceModal) {
-        hideServiceModal();
+        // Only close if clicking on the modal backdrop, not on any child elements
+        const modalContent = this.querySelector('div');
+        if (!modalContent.contains(e.target)) {
+          hideServiceModal();
+        }
       }
     });
 
@@ -1179,11 +1267,11 @@
           textNode.textContent = title;
         }
         
-        // Update logo
+        // Update logo - only if it's a valid URL
         const img = button.querySelector('img');
         if (img) {
           img.alt = 'Logo ' + title;
-          if (logo) {
+          if (logo && logo.trim() !== '') {
             img.src = logo;
           }
         }
@@ -1316,6 +1404,234 @@
         document.body.appendChild(adminMenu);
       }
     }
+
+    // ==================== FIREBASE INTEGRATION ====================
+    
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2sLqWwZIxr65c3CcNgKCCjmDTeDlSnfY",
+      authDomain: "telugeagro2025.firebaseapp.com",
+      projectId: "telugeagro2025",
+      storageBucket: "telugeagro2025.firebasestorage.app",
+      messagingSenderId: "1029963109637",
+      appId: "1:1029963109637:web:86824d0db45e1489b3136c",
+      measurementId: "G-XF1JDPME66"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Collection name for storing website content
+    const CONTENT_COLLECTION = 'websiteContent';
+    const DEFAULT_DOC_ID = 'mainContent'; // Define the document ID
+
+    // Function to load content from Firestore
+    async function loadContent() {
+      try {
+        const doc = await db.collection(CONTENT_COLLECTION).doc(DEFAULT_DOC_ID).get();
+        
+        if (doc.exists) {
+          const contentData = doc.data();
+          
+          // Update title and description
+          const mainTitle = document.querySelector('h1');
+          const desc = document.querySelector('p.desc');
+          if (mainTitle && contentData.title) mainTitle.textContent = contentData.title;
+          if (desc && contentData.description) desc.textContent = contentData.description;
+          
+          // Update avatar logo - only if it's a valid URL and not empty
+          const avatarImg = document.querySelector('.avatar img');
+          if (avatarImg && contentData.avatar && contentData.avatar.trim() !== '' && 
+              contentData.avatar !== 'logo Teluge.jpg' && 
+              (contentData.avatar.startsWith('http://') || contentData.avatar.startsWith('https://') || contentData.avatar.startsWith('data:'))) {
+            avatarImg.src = contentData.avatar;
+          }
+          
+          // Update services
+          const linksContainer = document.querySelector('.links');
+          if (linksContainer && contentData.services) {
+            // Clear existing services
+            linksContainer.innerHTML = '';
+            
+            // Add services from Firestore
+        contentData.services.forEach(service => {
+              const button = document.createElement('button');
+              button.className = 'link-btn';
+              button.setAttribute('onclick', `openLink('${service.url}')`);
+              button.setAttribute('aria-label', 'Buka ' + service.title);
+              
+              const logoImg = document.createElement('img');
+              logoImg.alt = service.alt || 'Logo ' + service.title;
+              logoImg.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://placehold.co/28x28/png?text=Error';
+              };
+              logoImg.src = service.logo && service.logo.trim() !== '' ? service.logo : `https://placehold.co/28x28/22c55e/white?text=${service.title.charAt(0).toUpperCase()}`;
+              
+              const serviceText = document.createTextNode(service.title);
+              
+              button.appendChild(logoImg);
+              button.appendChild(serviceText);
+              linksContainer.appendChild(button);
+            });
+          }
+          
+          showToast('Konten berhasil dimuat dari database');
+        } else {
+          // No content found, use default content
+          console.log('No content found in database, using default content');
+        }
+      } catch (error) {
+        console.error('Error loading content:', error);
+        showToast('Error memuat konten: ' + error.message);
+      } finally {
+        // Always hide loading overlay and show main content
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const mainContainer = document.querySelector('.container');
+        
+        if (loadingOverlay) {
+          loadingOverlay.style.display = 'none';
+        }
+        if (mainContainer) {
+          mainContainer.style.display = 'flex'; // Use flex to maintain the layout
+        }
+      }
+    }
+
+    // Function to reset to default content
+    async function resetToDefaultContent() {
+      if (!isLoggedIn()) {
+        showToast('Harus login sebagai admin untuk mereset konten');
+        return;
+      }
+
+      if (confirm('Yakin ingin mereset ke konten default? Ini akan menghapus semua perubahan yang disimpan.')) {
+        try {
+        await db.collection(CONTENT_COLLECTION).doc(DEFAULT_DOC_ID).delete();
+          location.reload(); // Reload page to show default content
+        } catch (error) {
+          console.error('Error resetting content:', error);
+          showToast('Error mereset konten: ' + error.message);
+        }
+      }
+    }
+
+    // Function to reset avatar to local image
+    function resetAvatarToLocal() {
+      if (!isLoggedIn()) {
+        showToast('Harus login sebagai admin untuk mereset avatar');
+        return;
+      }
+
+      const avatarImg = document.querySelector('.avatar img');
+      if (avatarImg) {
+        avatarImg.src = 'logo Teluge.jpg';
+        saveContent();
+        showToast('Avatar berhasil direset ke gambar lokal');
+      }
+    }
+
+    // Function to save content to Firestore
+    async function saveContent() {
+      if (!isLoggedIn()) {
+        showToast('Harus login sebagai admin untuk menyimpan perubahan');
+        return;
+      }
+
+      try {
+        const container = document.querySelector('.container');
+        const avatarImg = document.querySelector('.avatar img');
+        const mainTitle = document.querySelector('h1');
+        const desc = document.querySelector('p.desc');
+        const linksContainer = document.querySelector('.links');
+        
+        // Collect all service links
+        const services = [];
+        linksContainer.querySelectorAll('button.link-btn').forEach(btn => {
+          const img = btn.querySelector('img');
+          
+          // Get service title by excluding edit and delete icons and images
+          let serviceTitle = '';
+          btn.childNodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE) {
+              serviceTitle += node.textContent.trim();
+            }
+          });
+          
+          const onclickAttr = btn.getAttribute('onclick');
+          let url = '';
+          if (onclickAttr) {
+            const match = onclickAttr.match(/'(.*?)'/);
+            if (match && match[1]) {
+              url = match[1];
+            }
+          }
+          
+          services.push({
+            title: serviceTitle,
+            url: url,
+            logo: img ? img.src : '',
+            alt: img ? img.alt : ''
+          });
+        });
+
+        // Prepare content data
+        const contentData = {
+          title: mainTitle.textContent,
+          description: desc.textContent,
+          avatar: avatarImg ? avatarImg.src : '',
+          services: services,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: ADMIN_USERNAME
+        };
+
+        // Save to Firestore
+        await db.collection(CONTENT_COLLECTION).doc(DEFAULT_DOC_ID).set(contentData);
+        showToast('Perubahan berhasil disimpan ke database!');
+        
+      } catch (error) {
+        console.error('Error saving content:', error);
+        showToast('Error menyimpan perubahan: ' + error.message);
+      }
+    }
+
+    // Load content when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      loadContent();
+      
+        // Add reset buttons to admin menu
+        setTimeout(() => {
+          const adminMenu = document.getElementById('adminMenu');
+          if (adminMenu) {
+            // Reset to default content button
+            const resetBtn = document.createElement('button');
+            resetBtn.className = 'flex items-center gap-2 px-3 py-2 text-orange-600 hover:bg-orange-50 transition w-full text-left';
+            resetBtn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              Reset to Default
+            `;
+            resetBtn.onclick = resetToDefaultContent;
+            adminMenu.appendChild(resetBtn);
+
+            // Reset avatar to local image button
+            const resetAvatarBtn = document.createElement('button');
+            resetAvatarBtn.className = 'flex items-center gap-2 px-3 py-2 text-blue-600 hover:bg-blue-50 transition w-full text-left';
+            resetAvatarBtn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              Reset Avatar to Local
+            `;
+            resetAvatarBtn.onclick = resetAvatarToLocal;
+            adminMenu.appendChild(resetAvatarBtn);
+          }
+        }, 1000);
+    });
+
+    // ==================== END FIREBASE INTEGRATION ====================
   </script>
 </body>
 </html>
