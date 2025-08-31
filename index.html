@@ -631,33 +631,38 @@
           btn.setAttribute('contenteditable', 'true');
           btn.style.outline = '1px dashed #34d399';
           
-          // Add edit icon to each service button
-          if (!btn.querySelector('.edit-icon')) {
-            const editIcon = document.createElement('span');
-            editIcon.className = 'edit-icon';
-            // Replace pencil emoji with blue edit icon SVG
-            editIcon.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" fill="#2563eb" viewBox="0 0 24 24" stroke="#2563eb" stroke-width="1.5" width="18" height="18" style="vertical-align: middle;">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5m-10-7l7 7m0 0l3-3m-3 3v-3" />
-              </svg>
-            `;
-            editIcon.style.marginLeft = 'auto';
-            editIcon.style.padding = '0 8px';
-            editIcon.style.cursor = 'pointer';
-            editIcon.style.fontSize = '16px';
-            editIcon.addEventListener('click', function(e) {
-              e.stopPropagation();
-              openServiceModal(btn);
-            });
-            btn.appendChild(editIcon);
+            // Add edit icon to each service button
+            if (!btn.querySelector('.edit-icon')) {
+              const editIcon = document.createElement('span');
+              editIcon.className = 'edit-icon';
+              // Classy filled edit icon SVG
+              editIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#2563eb" viewBox="0 0 24 24" stroke="none" width="24" height="24" style="vertical-align: middle;">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                </svg>
+              `;
+              editIcon.style.marginLeft = 'auto';
+              editIcon.style.padding = '0 8px';
+              editIcon.style.cursor = 'pointer';
+              editIcon.style.fontSize = '20px';
+              editIcon.style.minWidth = '24px';
+              editIcon.style.minHeight = '24px';
+              editIcon.style.display = 'flex';
+              editIcon.style.alignItems = 'center';
+              editIcon.style.justifyContent = 'center';
+              editIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openServiceModal(btn);
+              });
+              btn.appendChild(editIcon);
 
             // Add delete icon next to edit icon
             if (!btn.querySelector('.delete-icon')) {
               const deleteIcon = document.createElement('span');
               deleteIcon.className = 'delete-icon';
               deleteIcon.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#ef4444" viewBox="0 0 24 24" stroke="#ef4444" stroke-width="1.5" width="18" height="18" style="vertical-align: middle; cursor: pointer;">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#ef4444" viewBox="0 0 24 24" stroke="none" width="24" height="24" style="vertical-align: middle; cursor: pointer; min-width: 24px; min-height: 24px; display: flex; align-items: center; justify-content: center;">
+                  <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               `;
               deleteIcon.style.padding = '0 8px';
@@ -1517,20 +1522,6 @@
       }
     }
 
-    // Function to reset avatar to local image
-    function resetAvatarToLocal() {
-      if (!isLoggedIn()) {
-        showToast('Harus login sebagai admin untuk mereset avatar');
-        return;
-      }
-
-      const avatarImg = document.querySelector('.avatar img');
-      if (avatarImg) {
-        avatarImg.src = 'logo Teluge.jpg';
-        saveContent();
-        showToast('Avatar berhasil direset ke gambar lokal');
-      }
-    }
 
     // Function to save content to Firestore
     async function saveContent() {
@@ -1599,36 +1590,6 @@
     // Load content when page loads
     document.addEventListener('DOMContentLoaded', function() {
       loadContent();
-      
-        // Add reset buttons to admin menu
-        setTimeout(() => {
-          const adminMenu = document.getElementById('adminMenu');
-          if (adminMenu) {
-            // Reset to default content button
-            const resetBtn = document.createElement('button');
-            resetBtn.className = 'flex items-center gap-2 px-3 py-2 text-orange-600 hover:bg-orange-50 transition w-full text-left';
-            resetBtn.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-              </svg>
-              Reset to Default
-            `;
-            resetBtn.onclick = resetToDefaultContent;
-            adminMenu.appendChild(resetBtn);
-
-            // Reset avatar to local image button
-            const resetAvatarBtn = document.createElement('button');
-            resetAvatarBtn.className = 'flex items-center gap-2 px-3 py-2 text-blue-600 hover:bg-blue-50 transition w-full text-left';
-            resetAvatarBtn.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              Reset Avatar to Local
-            `;
-            resetAvatarBtn.onclick = resetAvatarToLocal;
-            adminMenu.appendChild(resetAvatarBtn);
-          }
-        }, 1000);
     });
 
     // ==================== END FIREBASE INTEGRATION ====================
