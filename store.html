@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teluge Agro - Online Store</title>
+     <link rel="icon" href="logo Teluge.jpg" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #E8F5E9 0%, #FFFFFF 100%);
+            font-family: 'Arial', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+        }
+        .text-shadow-green {
+            text-shadow: 0 2px 4px rgba(76, 175, 80, 0.5);
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <header class="bg-green-700 text-white py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4 relative">
+            <div class="flex items-center space-x-2">
+                <img src="logo Teluge.jpg" alt="Green leaf icon symbolizing nature and agriculture, stylized as a fresh plant leaf in vibrant green hues" class="w-8 h-8 rounded-full placeholder-img">
+                <h1 class="text-2xl font-bold text-shadow-green">Teluge Agro</h1>
+            </div>
+            <button id="hamburger-btn" aria-label="Toggle menu" class="md:hidden focus:outline-none z-30">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+            <nav id="nav-menu" class="hidden md:flex space-x-6 text-white font-semibold">
+                <a href="#about" class="hover:text-green-300">About</a>
+                <a href="#products" class="hover:text-green-300">Products</a>
+                <a href="#contact" class="hover:text-green-300">Contact</a>
+                <a href="store.html" class="hover:text-green-300">Store</a>
+                <a href="cart.html" id="cart-link" class="hover:text-green-300">Cart</a>
+            </nav>
+            <!-- Mobile menu -->
+            <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
+                <a href="#about" class="hover:text-green-300">About</a>
+                <a href="#products" class="hover:text-green-300">Products</a>
+                <a href="#contact" class="hover:text-green-300">Contact</a>
+                <a href="store.html" class="hover:text-green-300">Store</a>
+                <a href="cart.html" class="hover:text-green-300">Cart</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-16 relative">
+        <div class="container mx-auto text-center px-4">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ae582dc6-99f8-473f-b414-7b01b27b6708.png" alt="Variety of fresh bananas including green and yellow bunches arranged on a wooden display in a tropical market stall setting" class="mx-auto mb-6 rounded-lg shadow-lg">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-shadow-green">Pisang Segar & Kualitas Ekspor</h2>
+            <p class="text-lg md:text-xl mb-8">Belanja Langsung dari Purworejo, Indonesia - Berkelanjutan & Premium</p>
+            <a href="#products" class="bg-white text-green-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">Jelajahi Produk</a>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-white" style="clip-path: polygon(0% 100%, 100% 0%, 100% 100%);"></div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-green-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-semibold text-center text-green-800 mb-10">Produk Kami</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg product-card transition duration-300 fade-in">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6687a905-5ec4-43e4-9738-c2cc0c9db9b7.png" alt="Bunch of Cavendish bananas, yellow and ripe, with green tips, premium export quality from Indonesian farms" class="mx-auto mb-4 rounded">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Pisang Cavendish</h4>
+                    <p class="text-gray-600 mb-4">Manis dan creamy, cocok untuk ekspor. Harga: Rp.12.000 per kg</p>
+                    <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="Cavendish Bananas" data-price="2.50">Add to Cart</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg product-card transition duration-300 fade-in" style="animation-delay: 0.1s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ae569231-d922-40c1-b7b2-db4e98abb5e1.png" alt="Organic green bananas hanging fresh from the tree, eco-friendly farming in a lush green plantation" class="mx-auto mb-4 rounded">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Pisang Hijau</h4>
+                    <p class="text-gray-600 mb-4">Fresh and healthy options for local markets. Price: Rp.14.000 per kg</p>
+                    <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="Green Bananas (Organic)" data-price="1.80">Add to Cart</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg product-card transition duration-300 fade-in" style="animation-delay: 0.2s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0472f936-2084-4f51-9c4d-414ee6926919.png" alt="Bulk shipment pallets stacked with banana boxes labeled for international export from Central Java" class="mx-auto mb-4 rounded">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Ekspor Paket Massal</h4>
+                    <p class="text-gray-600 mb-4">Kemasan grosir untuk distributor. Harga: Rp.17.000 per kg (min. 100 kg)</p>
+                    <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="Export Bulk Pack" data-price="190.00">Add to Cart (100kg)</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg product-card transition duration-300 fade-in" style="animation-delay: 0.3s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bd310699-54f4-480f-a0a5-4f8c3610f6d0.png" alt="Plantain bananas, starchy and versatile, ready for cooking in a traditional Indonesian kitchen setting" class="mx-auto mb-4 rounded">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Pisang Untuk Kue</h4>
+                    <p class="text-gray-600 mb-4">Cocok untuk memasak dan menggoreng. Harga: Rp. 15.000 per kg</p>
+                    <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="Plantain Bananas" data-price="1.50">Add to Cart</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg product-card transition duration-300 fade-in" style="animation-delay: 0.4s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fd4dc657-9fda-44f4-b8a1-358a90c514e9.png" alt="Small silk bananas, miniature and sweet, harvested from small farms in Purworejo for specialty markets" class="mx-auto mb-4 rounded">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Pisang Sutra</h4>
+                    <p class="text-gray-600 mb-4">Pisang manis mini untuk camilan. Harga: Rp. 25.0000 per kg</p>
+                    <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="Silk Bananas" data-price="3.00">Add to Cart</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg product-card transition duration-300 fade-in" style="animation-delay: 0.5s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a9d1dfe3-39bd-4e8b-b78b-dcae997768e0.png" alt="Banana chips and snacks in packaging, produced from fresh Indonesian bananas for export and retail" class="mx-auto mb-4 rounded">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Paket Cemilan Pisang</h4>
+                    <p class="text-gray-600 mb-4">Keripik pisang kering dan produk lainnya. Harga: Rp. 20.000 per bungkus</p>
+                    <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="Banana Snacks Pack" data-price="5.00">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close cursor-pointer text-2xl font-bold text-red-500">&times;</span>
+            <h3 class="text-2xl font-bold text-green-800 mb-4">Your Cart</h3>
+            <div id="cart-items" class="mb-4">
+                <!-- Cart items will be populated here -->
+            </div>
+            <p class="text-lg font-semibold">Total: $<span id="cart-total">0.00</span></p>
+            <button id="checkout-btn" class="bg-green-600 text-white px-6 py-2 mt-4 rounded hover:bg-green-700">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 text-center">
+    <p>© 2023 Teluge Agro. All rights reserved.</p>
+  </footer>
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyB2sLqWwZIxr65c3CcNgKCCjmDTeDlSnfY",
+          authDomain: "telugeagro2025.firebaseapp.com",
+          projectId: "telugeagro2025",
+          storageBucket: "telugeagro2025.firebasestorage.app",
+          messagingSenderId: "1029963109637",
+          appId: "1:1029963109637:web:86824d0db45e1489b3136c",
+          measurementId: "G-XF1JDPME66"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let cartItems = {}; // Will store cart as object with product names as keys
+
+        // Initialize Firebase Auth
+        async function initializeAuth() {
+            try {
+                await signInAnonymously(auth);
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentUser = user;
+                        loadCartFromFirestore();
+                    }
+                });
+            } catch (error) {
+                console.error('Auth error:', error);
+                // Fallback to localStorage if Firebase fails
+                cartItems = JSON.parse(localStorage.getItem('cart')) || {};
+                updateCartUI();
+            }
+        }
+
+        // Load cart from Firestore
+        async function loadCartFromFirestore() {
+            if (!currentUser) return;
+
+            try {
+                const cartRef = doc(db, 'carts', currentUser.uid);
+                const cartSnap = await getDoc(cartRef);
+
+                if (cartSnap.exists()) {
+                    cartItems = cartSnap.data().items || {};
+                } else {
+                    cartItems = {};
+                }
+                updateCartUI();
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                // Fallback to localStorage
+                cartItems = JSON.parse(localStorage.getItem('cart')) || {};
+                updateCartUI();
+            }
+        }
+
+        // Save cart to Firestore
+        async function saveCartToFirestore() {
+            if (!currentUser) return;
+
+            try {
+                const cartRef = doc(db, 'carts', currentUser.uid);
+                await setDoc(cartRef, { items: cartItems }, { merge: true });
+            } catch (error) {
+                console.error('Error saving cart:', error);
+                // Fallback to localStorage
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+            }
+        }
+
+        // Add item to cart
+        async function addToCart(product, price) {
+            if (cartItems[product]) {
+                cartItems[product].quantity += 1;
+            } else {
+                cartItems[product] = { product, price: parseFloat(price), quantity: 1 };
+            }
+            await saveCartToFirestore();
+            updateCartUI();
+        }
+
+        // Remove item from cart
+        async function removeFromCart(productName) {
+            delete cartItems[productName];
+            await saveCartToFirestore();
+            updateCartUI();
+        }
+
+        // Clear cart
+        async function clearCart() {
+            cartItems = {};
+            await saveCartToFirestore();
+            updateCartUI();
+        }
+
+        // Add to cart button event listeners
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', async function() {
+                const product = this.dataset.product;
+                const price = this.dataset.price;
+                await addToCart(product, price);
+                alert(`${product} added to cart!`);
+            });
+        });
+
+        document.getElementById('cart-link').addEventListener('click', () => {
+            document.getElementById('cart-modal').style.display = 'block';
+        });
+
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('cart-modal').style.display = 'none';
+        });
+
+        function updateCartUI() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+            const items = Object.values(cartItems);
+
+            items.forEach(item => {
+                total += item.price * item.quantity;
+                cartItemsDiv.innerHTML += `
+                    <div class="flex justify-between py-2">
+                        <span>${item.product} (x${item.quantity})</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                        <button class="remove-btn text-red-500" data-product="${item.product}">Remove</button>
+                    </div>
+                `;
+            });
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+
+            // Update remove buttons
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const product = this.dataset.product;
+                    await removeFromCart(product);
+                });
+            });
+        }
+
+        document.getElementById('checkout-btn').addEventListener('click', async () => {
+            const items = Object.values(cartItems);
+            if (items.length === 0) {
+                alert('Your cart is empty!');
+            } else {
+                alert('Thank you for your order! We will process it soon.');
+                await clearCart();
+                document.getElementById('cart-modal').style.display = 'none';
+            }
+        });
+
+        // Fade-in effect for product cards
+        document.querySelectorAll('.fade-in').forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Initialize the app
+        initializeAuth();
+    </script>
+</body>
+</html>
+</content>
+</create_file>

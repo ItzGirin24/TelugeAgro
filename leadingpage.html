@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="icon" href="logo Teluge.jpg" type="image/x-icon">
+    <title>Teluge Agro - Best Bananas Supplier & Specialist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #E8F5E9 0%, #FFFFFF 100%);
+            font-family: 'Arial', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+        }
+        .text-shadow-green {
+            text-shadow: 0 2px 4px rgba(76, 175, 80, 0.5);
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .placeholder-img {
+            filter: brightness(110%);
+        }
+        /* New styles for more attractive hamburger and menu */
+        #hamburger-btn svg {
+            transition: transform 0.3s ease;
+        }
+        #hamburger-btn.open svg {
+            transform: rotate(90deg);
+        }
+        #mobile-menu {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform-origin: top right;
+        }
+        #mobile-menu.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        #mobile-menu.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header -->
+    <header class="bg-green-700 text-white py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4 relative">
+            <div class="flex items-center space-x-2">
+                <img src="logo Teluge.jpg" alt="Green leaf icon symbolizing nature and agriculture, stylized as a fresh plant leaf in vibrant green hues" class="w-8 h-8 rounded-full placeholder-img">
+                <h1 class="text-2xl font-bold text-shadow-green">Teluge Agro</h1>
+            </div>
+            <button id="hamburger-btn" aria-label="Toggle menu" class="md:hidden focus:outline-none z-30">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+            <nav id="nav-menu" class="hidden md:flex space-x-6 text-white font-semibold">
+                <a href="#about" class="hover:text-green-300">About</a>
+                <a href="#products" class="hover:text-green-300">Products</a>
+                <a href="#contact" class="hover:text-green-300">Contact</a>
+                <a href="store.html" class="hover:text-green-300">Store</a>
+                <a href="cart.html" class="hover:text-green-300">Cart</a>
+            </nav>
+            <!-- Mobile menu -->
+            <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
+                <a href="#about" class="hover:text-green-300">About</a>
+                <a href="#products" class="hover:text-green-300">Products</a>
+                <a href="#contact" class="hover:text-green-300">Contact</a>
+                <a href="store.html" class="hover:text-green-300">Store</a>
+                <a href="cart.html" class="hover:text-green-300">Cart</a>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        hamburgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-20 relative">
+        <div class="container mx-auto text-center px-4">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c6b31bad-fa21-4921-b2e4-734693fac5ac.png" alt="Close-up of fresh, vibrant green bananas hanging from a bunch on a healthy plant in a sunny tropical plantation, surrounded by lush green leaves and clear blue sky" class="mx-auto mb-6 rounded-lg shadow-lg placeholder-img">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-shadow-green">Pemasok & Spesialis Pisang Bagus</h2>
+            <p class="text-lg md:text-xl mb-8">Lokal & Ekspor | Purworejo, Jawa Tengah, Indonesia</p>
+            <a href="#contact" class="bg-white text-green-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">Hubungi Kami</a>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-white" style="clip-path: polygon(0% 100%, 100% 0%, 100% 100%);"></div>
+    </section>
+
+
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bc180d7c-f474-4d27-aaa3-a156f71ced60.png" alt="Panoramic view of a green agricultural field in Purworejo with rows of banana plants under a clear sky, showcasing sustainable farming practices" class="mx-auto mb-6 rounded-lg shadow-md placeholder-img">
+            <h3 class="text-3xl font-semibold text-green-800 mb-6">Tentang Kami</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+               Di Teluge Agro, kami berkomitmen untuk menyediakan pisang berkualitas terbaik langsung dari jantung kota Purworejo, Jawa Tengah, Indonesia. Sebagai pemasok dan spesialis terkemuka, kami berfokus pada praktik pertanian berkelanjutan untuk memastikan pisang kami segar, bergizi, dan siap untuk pasar lokal maupun ekspor internasional. Komitmen kami terhadap kualitas dan pertanian hijau menjadikan kami mitra tepercaya Anda dalam industri pisang.
+            </p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-green-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-semibold text-center text-green-800 mb-10">Produk & Layanan Kami</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition transform hover:scale-105 fade-in">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e1b5ce79-e92e-4403-ae44-7f1fd5f9e2d1.png" alt="Stack of ripe yellow bananas ready for packing and shipment, with labels indicating export quality from Indonesia" class="mx-auto mb-4 rounded placeholder-img">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Pisang Segar</h4>
+                    <p class="text-gray-600">Kami menyediakan pisang lokal pilihan yang ideal untuk pasar eceran dan ekspor.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition transform hover:scale-105 fade-in" style="animation-delay: 0.2s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d1d730ad-7c03-4439-ad31-59ec95fe1165.png" alt="Shipping containers loaded with banana crates, depicting global export logistics from Central Java to international destinations" class="mx-auto mb-4 rounded placeholder-img">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Spesialis Ekspor</h4>
+                    <p class="text-gray-600">Penanganan ahli untuk pengiriman internasional, memastikan pisang Anda tiba di tujuan dalam keadaan segar.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition transform hover:scale-105 fade-in" style="animation-delay: 0.4s;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3b343eeb-ac88-4aaa-a67a-2e2316966fda.png" alt="Local market stall displaying bundles of green bananas being purchased by customers in a vibrant Indonesian setting" class="mx-auto mb-4 rounded placeholder-img">
+                    <h4 class="text-xl font-bold text-green-700 mb-2">Pasokan Lokal</h4>
+                    <p class="text-gray-600">Didedikasikan untuk melayani masyarakat di Purworejo dan sekitarnya dengan pengiriman lokal premium.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-green-700 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-3xl font-semibold mb-10">Hubungi kami</h3>
+            <p class="text-lg mb-8">Berkantor pusat di Purworejo, Jawa Tengah, Indonesia. Mari bertumbuh bersama!</p>
+            <form id="contact-form" class="max-w-lg mx-auto">
+                <input type="text" id="name" placeholder="Nama Kamu" class="w-full p-3 mb-4 rounded bg-white text-gray-800" required>
+                <input type="email" id="email" placeholder="Email Kamu" class="w-full p-3 mb-4 rounded bg-white text-gray-800" required>
+                <textarea id="message" placeholder="Pesan Untuk Kami" class="w-full p-3 mb-6 rounded bg-white text-gray-800" rows="4" required></textarea>
+                <button type="submit" class="bg-white text-green-700 px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition">Kirim Pesan</button>
+            </form>
+
+            <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+            <script>
+              (function(){
+                emailjs.init("rwtBxYPpf3Yw1-dPz"); // Replace with your EmailJS user ID
+              })();
+
+              const contactForm = document.getElementById('contact-form');
+              contactForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                const templateParams = {
+                  from_name: name,
+                  reply_to: email,
+                  from_email: email,
+                  message: message
+                };
+
+                emailjs.send('service_6i805a6', 'template_197yc9q', templateParams)
+                  .then(function(response) {
+                    contactForm.reset();
+                  }, function(error) {
+                    alert('Gagal mengirim pesan. Silakan coba lagi.');
+                    console.error('EmailJS error:', error);
+                  });
+              });
+            </script>
+        </div>
+    </section>
+
+    <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 text-center">
+    <p>© 2023 Teluge Agro. All rights reserved.</p>
+  </footer>
+
+    <script>
+        // Simple form validation and animation
+        const form = document.getElementById('contact-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            if (name && email && message) {
+                showPopup('Pesan berhasil dikirim! Terima kasih.');
+                form.reset();
+            } else {
+                alert('Please fill all fields.');
+            }
+        });
+
+        // Popup function
+        function showPopup(message) {
+            let popup = document.createElement('div');
+            popup.textContent = message;
+            popup.style.position = 'fixed';
+            popup.style.top = '20px';
+            popup.style.right = '20px';
+            popup.style.backgroundColor = '#4CAF50';
+            popup.style.color = 'white';
+            popup.style.padding = '15px 25px';
+            popup.style.borderRadius = '5px';
+            popup.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+            popup.style.zIndex = '10000';
+            document.body.appendChild(popup);
+            setTimeout(() => {
+                popup.remove();
+            }, 3000);
+        }
+
+        // Fade-in effect for product cards
+        document.querySelectorAll('.fade-in').forEach((el, index) => {
+            setTimeout(() => {
+                el.classList.add('opacity-100');
+            }, index * 200);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    
+</body>
+</html>
+</content>
+</create_file>
