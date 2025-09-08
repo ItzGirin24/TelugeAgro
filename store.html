@@ -64,15 +64,15 @@
                 </svg>
             </button>
             <nav id="nav-menu" class="hidden md:flex space-x-6 text-white font-semibold">
-                <a href="#about" class="hover:text-green-300">About</a>
+                <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
                 <a href="store.html" class="hover:text-green-300">Store</a>
-                <a href="cart.html" id="cart-link" class="hover:text-green-300">Cart</a>
+                <a href="cart.html" class="hover:text-green-300">Cart</a>
             </nav>
             <!-- Mobile menu -->
             <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
-                <a href="#about" class="hover:text-green-300">About</a>
+                <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
                 <a href="store.html" class="hover:text-green-300">Store</a>
@@ -316,6 +316,28 @@
         // Fade-in effect for product cards
         document.querySelectorAll('.fade-in').forEach((el, index) => {
             el.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Hamburger menu toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on a link
+        mobileMenu.addEventListener('click', (e) => {
+          if (e.target.tagName === 'A') {
+            mobileMenu.classList.add('hidden');
+          }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+          }
         });
 
         // Initialize the app
