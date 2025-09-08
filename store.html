@@ -267,13 +267,22 @@
             });
         });
 
-        document.getElementById('cart-link').addEventListener('click', () => {
-            document.getElementById('cart-modal').style.display = 'block';
-        });
+        const cartLink = document.getElementById('cart-link');
+        if (cartLink) {
+            cartLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const cartModal = document.getElementById('cart-modal');
+                if (cartModal) cartModal.style.display = 'block';
+            });
+        }
 
-        document.querySelector('.close').addEventListener('click', () => {
-            document.getElementById('cart-modal').style.display = 'none';
-        });
+        const closeBtn = document.querySelector('.close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                const cartModal = document.getElementById('cart-modal');
+                if (cartModal) cartModal.style.display = 'none';
+            });
+        }
 
         function updateCartUI() {
             const cartItemsDiv = document.getElementById('cart-items');
