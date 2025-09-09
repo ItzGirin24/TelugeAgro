@@ -67,14 +67,13 @@
                 <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
-                <a href="store.html" class="hover:text-green-300">Store</a>
-                <a href="cart.html" class="hover:text-green-300 relative">
+                <a href="cart.html" id="cart-link" class="hover:text-green-300 relative">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
                     </svg>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                 </a>
-                <a href="admin.html" class="hover:text-green-300">Admin</a>
+
             </nav>
             <!-- Mobile menu -->
             <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
@@ -82,14 +81,13 @@
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
                 <a href="store.html" class="hover:text-green-300">Store</a>
-                <a href="cart.html" class="hover:text-green-300 relative flex items-center">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <a href="cart.html" id="cart-link-mobile" class="hover:text-green-300 relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
                     </svg>
-                    Cart
-                    <span id="cart-count-mobile" class="ml-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                 </a>
-                <a href="admin.html" class="hover:text-green-300">Admin</a>
+
             </nav>
         </div>
     </header>
@@ -168,6 +166,14 @@
     <p>© 2023 Teluge Agro. All rights reserved.</p>
   </footer>
 
+  <!-- Cart Popup -->
+  <div id="cart-popup" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-full shadow-lg cursor-pointer hidden z-50">
+    <svg class="w-6 h-6 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+    </svg>
+    <span id="popup-count">0</span> items in cart
+  </div>
+
     <script>
         let cartItems = {}; // Will store cart as object with product names as keys
 
@@ -233,6 +239,15 @@
             });
         }
 
+        const cartLinkMobile = document.getElementById('cart-link-mobile');
+        if (cartLinkMobile) {
+            cartLinkMobile.addEventListener('click', (e) => {
+                e.preventDefault();
+                const cartModal = document.getElementById('cart-modal');
+                if (cartModal) cartModal.style.display = 'block';
+            });
+        }
+
         const closeBtn = document.querySelector('.close');
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
@@ -254,6 +269,16 @@
         if (cartCountElem) cartCountElem.textContent = cartCount;
         if (cartCountMobileElem) cartCountMobileElem.textContent = cartCount;
 
+        // Update popup
+        const popup = document.getElementById('cart-popup');
+        const popupCount = document.getElementById('popup-count');
+        if (cartCount > 0) {
+          popup.classList.remove('hidden');
+          popupCount.textContent = cartCount;
+        } else {
+          popup.classList.add('hidden');
+        }
+
         items.forEach(item => {
             total += item.price * item.quantity;
             cartItemsDiv.innerHTML += `
@@ -265,11 +290,9 @@
             `;
         });
         document.getElementById('cart-total').textContent = total.toFixed(2);
-        }
 
         // Event delegation for remove buttons
-        const cartItemsDiv = document.getElementById('cart-items');
-        cartItemsDiv.addEventListener('click', (e) => {
+        document.getElementById('cart-items').addEventListener('click', (e) => {
             if (e.target.classList.contains('remove-btn')) {
                 const product = e.target.dataset.product;
                 removeFromCart(product);
@@ -322,8 +345,15 @@
           }
         });
 
+        }
+
         // Initialize the app
         loadCart();
+
+        // Popup click event
+        document.getElementById('cart-popup').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
