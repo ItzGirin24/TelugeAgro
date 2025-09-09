@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teluge Agro - Admin Panel</title>
+    <link rel="icon" href="logo Teluge.jpg" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+    
+    <style>
+            @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+        body {
+            background: linear-gradient(to bottom, #E8F5E9 0%, #FFFFFF 100%);
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+        }
+        .text-shadow-green {
+            text-shadow: 0 2px 4px rgba(76, 175, 80, 0.5);
+        }
+        /* Responsive styling for mobile */
+        @media (max-width: 640px) {
+            #orders-list > div {
+                padding: 1rem;
+                margin: 0.5rem 0;
+                font-size: 0.9rem;
+            }
+            #orders-list h4 {
+                font-size: 1rem;
+                word-break: break-word;
+            }
+            #orders-list p {
+                font-size: 0.85rem;
+                word-break: break-word;
+            }
+            #orders-list div > div {
+                font-size: 0.85rem;
+            }
+            body {
+                padding: 0.5rem;
+            }
+            header .container {
+                flex-wrap: wrap;
+            }
+            header h1 {
+                font-size: 1.25rem;
+            }
+            nav.flex {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            nav.flex a {
+                font-size: 0.9rem;
+            }
+            footer p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <header class="bg-green-700 text-white py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4 relative">
+            <div class="flex items-center space-x-2">
+                <img src="logo Teluge.jpg" alt="Green leaf icon symbolizing nature and agriculture, stylized as a fresh plant leaf in vibrant green hues" class="w-8 h-8 rounded-full placeholder-img">
+                <h1 class="text-2xl font-bold text-shadow-green">Teluge Agro</h1>
+            </div>
+            <button id="hamburger-btn" aria-label="Toggle menu" class="md:hidden focus:outline-none z-30">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+            <nav id="nav-menu" class="hidden md:flex space-x-6 text-white font-semibold">
+                <a href="leadingpage.html" class="hover:text-green-300">About</a>
+                <a href="#products" class="hover:text-green-300">Products</a>
+                <a href="#contact" class="hover:text-green-300">Contact</a>
+                <a href="store.html" class="hover:text-green-300">Store</a>
+                              <a href="cart.html" id="cart-link" class="hover:text-green-300 relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+                    </svg>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
+            </nav>
+
+
+            </nav>
+            <!-- Mobile menu -->
+            <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
+                 <a href="leadingpage.html" class="hover:text-green-300">About</a>
+                 <a href="#products" class="hover:text-green-300">Products</a>
+                 <a href="#contact" class="hover:text-green-300">Contact</a>
+                 <a href="store.html" class="hover:text-green-300">Store</a>
+             <a href="cart.html" id="cart-link-mobile" class="hover:text-green-300 relative">
+              <a href="cart.html" id="cart-link-mobile" class="hover:text-white bg-green-700 rounded-full px-3 py-1 flex items-center space-x-2 font-semibold">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+                     </svg>
+                <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                <span>Cart</span>                <span id="cart-count-mobile" class="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                 </a>
+
+             </nav>
+         </div>
+     </header>
+
+    <section class="py-16 bg-green-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-semibold text-center text-green-800 mb-10">Order Management</h3>
+            <div id="orders-list" class="space-y-6">
+                <!-- Orders will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        <p>© 2023 Teluge Agro. All rights reserved.</p>
+    </footer>
+
+    <!-- Account Menu Button -->
+    <button id="accountBtn" aria-label="Account Menu" title="Account Menu" class="fixed bottom-4 right-4 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition z-50">
+        <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" class="w-6 h-6">
+            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+            <path d="M5 21c0-3 6-3 7-3s7 0 7 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
+
+    <!-- Admin Panel Popup -->
+    <div id="adminMenu" class="hidden fixed bottom-16 right-4 bg-white rounded-lg shadow-xl border border-gray-200 z-40 w-64">
+        <div class="p-4 border-b border-gray-100">
+            <p class="text-sm font-semibold text-gray-800">TelugeAgro_Admin</p>
+            <p class="text-xs text-gray-400">Admin Panel</p>
+        </div>
+        <div class="flex flex-col">
+            <button onclick="manageWeb()"
+                class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3a.75.75 0 01.75.75V6a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V3.75A.75.75 0 016 3h3.75zM18 3.75A.75.75 0 0017.25 3H13.5a.75.75 0 00-.75.75V6a.75.75 0 00.75.75h3.75A.75.75 0 0018 6V3.75zM9.75 13.5a.75.75 0 01.75.75V18a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75v-3.75A.75.75 0 016 13.5h3.75zM18 13.5a.75.75 0 00-.75.75V18a.75.75 0 00.75.75h3.75a.75.75 0 00.75-.75v-3.75a.75.75 0 00-.75-.75H18z"/>
+                </svg>
+                Manage Web
+            </button>
+            <button onclick="logoutAdmin()"
+                class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-9A2.25 2.25 0 002.25 5.25v13.5A2.25 2.25 0 004.5 21h9a2.25 2.25 0 002.25-2.25V15M12 9l3-3m0 0l3 3m-3-3v12"/>
+                </svg>
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Management Section (Hidden by default) -->
+    <section id="productManagement" class="py-16 bg-green-50 hidden">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-10">
+                <h3 class="text-3xl font-semibold text-green-800">Product Management</h3>
+                <button id="addProductBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add New Product</button>
+            </div>
+            <div id="products-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Products will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Edit Modal -->
+    <div id="productModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96 max-w-full">
+            <h2 id="productModalTitle" class="text-lg font-bold mb-4 text-green-700">Edit Product</h2>
+            <form id="productForm">
+                <div class="mb-4">
+                    <label for="productTitle" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" id="productTitle" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                </div>
+                <div class="mb-4">
+                    <label for="productDescription" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="productDescription" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="3" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="productPrice" class="block text-sm font-medium text-gray-700">Price ($)</label>
+                    <input type="number" id="productPrice" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                </div>
+                <div class="mb-4">
+                    <label for="productImage" class="block text-sm font-medium text-gray-700">Image URL</label>
+                    <input type="url" id="productImage" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="button" id="cancelProductBtn" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            query,
+            orderBy,
+            addDoc,
+            updateDoc,
+            deleteDoc,
+            doc,
+            getDoc
+        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB2sLqWwZIxr65c3CcNgKCCjmDTeDlSnfY",
+            authDomain: "telugeagro2025.firebaseapp.com",
+            projectId: "telugeagro2025",
+            storageBucket: "telugeagro2025.firebasestorage.app",
+            messagingSenderId: "1029963109637",
+            appId: "1:1029963109637:web:86824d0db45e1489b3136c",
+            measurementId: "G-XF1JDPME66"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 3000);
+        }
+
+        async function loadOrders() {
+            try {
+                const ordersQuery = query(collection(db, 'orders'), orderBy('timestamp', 'desc'));
+                const querySnapshot = await getDocs(ordersQuery);
+                const ordersList = document.getElementById('orders-list');
+                ordersList.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const order = doc.data();
+                    const orderDiv = document.createElement('div');
+                    orderDiv.className = 'bg-white p-6 rounded-lg shadow-lg';
+                    const status = order.status || 'pending';
+                    const statusColor = status === 'completed' ? 'bg-green-100 text-green-800' :
+                                       status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                       'bg-blue-100 text-blue-800';
+                    orderDiv.innerHTML = `
+                        <h4 class="text-xl font-bold text-green-700 mb-2">Order ID: ${doc.id}</h4>
+                        <p class="text-gray-600 mb-2">Customer: ${order.customerName || order.name}</p>
+                        <p class="text-gray-600 mb-2">Email: ${order.email}</p>
+                        <p class="text-gray-600 mb-2">Total: Rp${order.total.toFixed(3)}</p>
+                        <p class="text-gray-600 mb-2">Date: ${order.timestamp.toDate().toLocaleString()}</p>
+                        <p class="mb-4">
+                            <span class="inline-block px-2 py-1 rounded-full text-sm font-semibold ${statusColor}">
+                                ${status.charAt(0).toUpperCase() + status.slice(1)}
+                            </span>
+                        </p>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Update Status:</label>
+                            <div class="flex gap-2">
+                                <button onclick="updateOrderStatus('${doc.id}', 'pending')" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Pending</button>
+                                <button onclick="updateOrderStatus('${doc.id}', 'completed')" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Completed</button>
+                                <button onclick="updateOrderStatus('${doc.id}', 'cancelled')" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Cancelled</button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            ${order.items.map(item => `
+                                <div class="flex justify-between">
+                                    <span>${item.product} (x${item.quantity})</span>
+                                    <span>Rp${(item.price * item.quantity).toFixed(3)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    ordersList.appendChild(orderDiv);
+                });
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('orders-list').innerHTML = '<p class="text-red-500">Error loading orders.</p>';
+            }
+        }
+
+        // Load orders on page load
+        loadOrders();
+
+        // Admin state management
+        const ADMIN_USERNAME = 'teluge@admin.app';
+        const ADMIN_PASSWORD = 'teluge2025';
+
+        function isLoggedIn() {
+            return localStorage.getItem('adminLoggedIn') === 'true';
+        }
+
+        function showAdminMenu() {
+            const adminMenu = document.getElementById('adminMenu');
+            adminMenu.classList.remove('hidden');
+        }
+
+        function hideAdminMenu() {
+            const adminMenu = document.getElementById('adminMenu');
+            adminMenu.classList.add('hidden');
+        }
+
+        function toggleAdminMenu() {
+            const adminMenu = document.getElementById('adminMenu');
+            if (adminMenu.classList.contains('hidden')) {
+                showAdminMenu();
+            } else {
+                hideAdminMenu();
+            }
+        }
+
+        // Account button event listener
+        document.getElementById('accountBtn').addEventListener('click', () => {
+            if (isLoggedIn()) {
+                toggleAdminMenu();
+            } else {
+                // Redirect to login or show login modal
+                window.location.href = 'login.html'; // Assuming you have a login page
+            }
+        });
+
+        // Close admin menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const adminMenu = document.getElementById('adminMenu');
+            const accountBtn = document.getElementById('accountBtn');
+            if (!adminMenu.contains(e.target) && !accountBtn.contains(e.target)) {
+                hideAdminMenu();
+            }
+        });
+
+        // Manage Web function
+        function manageWeb() {
+            const productManagement = document.getElementById('productManagement');
+            const orderManagement = document.querySelector('section.py-16.bg-green-50');
+
+            if (productManagement.classList.contains('hidden')) {
+                // Show product management, hide order management
+                productManagement.classList.remove('hidden');
+                orderManagement.style.display = 'none';
+                loadProducts();
+            } else {
+                // Show order management, hide product management
+                productManagement.classList.add('hidden');
+                orderManagement.style.display = 'block';
+            }
+            hideAdminMenu();
+        }
+
+        // Logout function
+        function logoutAdmin() {
+            localStorage.removeItem('adminLoggedIn');
+            hideAdminMenu();
+            // Redirect to login or refresh page
+            window.location.href = 'login.html'; // Assuming you have a login page
+        }
+
+        // Product management functions
+        async function loadProducts() {
+            try {
+                const productsQuery = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+                const querySnapshot = await getDocs(productsQuery);
+                const productsList = document.getElementById('products-list');
+                productsList.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const product = doc.data();
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'bg-white p-6 rounded-lg shadow-lg';
+                    productDiv.innerHTML = `
+                        <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover rounded mb-4">
+                        <h4 class="text-xl font-bold text-green-700 mb-2">${product.title}</h4>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        <p class="text-lg font-semibold text-green-600 mb-4">$${product.price.toFixed(2)}</p>
+                        <div class="flex gap-2">
+                            <button onclick="editProduct('${doc.id}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</button>
+                            <button onclick="deleteProduct('${doc.id}')" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
+                        </div>
+                    `;
+                    productsList.appendChild(productDiv);
+                });
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('products-list').innerHTML = '<p class="text-red-500">Error loading products.</p>';
+            }
+        }
+
+        async function addProduct() {
+            document.getElementById('productModalTitle').textContent = 'Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        async function editProduct(productId) {
+            try {
+                const productDoc = await getDoc(doc(db, 'products', productId));
+                if (productDoc.exists()) {
+                    const product = productDoc.data();
+                    document.getElementById('productTitle').value = product.title;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productImage').value = product.image;
+                    document.getElementById('productModalTitle').textContent = 'Edit Product';
+                    document.getElementById('productForm').dataset.productId = productId;
+                    document.getElementById('productModal').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error loading product for edit:', error);
+            }
+        }
+
+        async function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                    await deleteDoc(doc(db, 'products', productId));
+                    loadProducts();
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                }
+            }
+        }
+
+        // Product form submission
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('productTitle').value;
+            const description = document.getElementById('productDescription').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const image = document.getElementById('productImage').value;
+            const productId = document.getElementById('productForm').dataset.productId;
+
+            try {
+                if (productId) {
+                    // Update existing product
+                    await updateDoc(doc(db, 'products', productId), {
+                        title,
+                        description,
+                        price,
+                        image,
+                        updatedAt: new Date()
+                    });
+                } else {
+                    // Add new product
+                    await addDoc(collection(db, 'products'), {
+                        title,
+                        description,
+                        price,
+                        image,
+                        createdAt: new Date()
+                    });
+                }
+
+                document.getElementById('productModal').classList.add('hidden');
+                loadProducts();
+            } catch (error) {
+                console.error('Error saving product:', error);
+            }
+        });
+
+        // Modal event listeners
+        document.getElementById('cancelProductBtn').addEventListener('click', () => {
+            document.getElementById('productModal').classList.add('hidden');
+        });
+
+        document.getElementById('addProductBtn').addEventListener('click', addProduct);
+
+        // Close modal when clicking outside
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('productModal')) {
+                document.getElementById('productModal').classList.add('hidden');
+            }
+        });
+
+        // Update order status
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                await updateDoc(doc(db, 'orders', orderId), {
+                    status: newStatus,
+                    updatedAt: new Date()
+                });
+                loadOrders(); // Reload orders to reflect changes
+                showToast(`Order status updated to ${newStatus}`, 'success');
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                showToast('Error updating order status', 'error');
+            }
+        }
+
+        // Make functions global
+        window.manageWeb = manageWeb;
+        window.logoutAdmin = logoutAdmin;
+        window.editProduct = editProduct;
+        window.deleteProduct = deleteProduct;
+        window.updateOrderStatus = updateOrderStatus;
+    </script>
+<script>
+      // Hamburger menu toggle
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking on a link
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    // Initialize the app
+    loadCart();
+
+    // Popup click event
+    document.getElementById('cart-popup').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+    
+</body>
+</html>

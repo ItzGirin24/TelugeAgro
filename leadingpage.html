@@ -8,9 +8,10 @@
     <title>Teluge Agro - Best Bananas Supplier & Specialist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
         body {
             background: linear-gradient(to bottom, #E8F5E9 0%, #FFFFFF 100%);
-            font-family: 'Arial', sans-serif;
+            font-family: 'Quicksand', sans-serif;
         }
         .hero-bg {
             background: linear-gradient(135deg, #4CAF50, #81C784);
@@ -53,7 +54,7 @@
 </head>
 <body class="text-gray-800">
     <!-- Header -->
-    <header class="bg-green-700 text-white py-4 shadow-md">
+  <header class="bg-green-700 text-white py-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center px-4 relative">
             <div class="flex items-center space-x-2">
                 <img src="logo Teluge.jpg" alt="Green leaf icon symbolizing nature and agriculture, stylized as a fresh plant leaf in vibrant green hues" class="w-8 h-8 rounded-full placeholder-img">
@@ -70,14 +71,26 @@
                 <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
-
+                <a href="store.html" class="text-green-300 font-bold border-b-2 border-white">Store</a>
+                <a href="cart.html" id="cart-link" class="hover:text-green-300 relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+                    </svg>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
             </nav>
             <!-- Mobile menu -->
             <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
                 <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
-
+                <a href="store.html" class="text-white font-bold bg-green-700 rounded-full px-3 py-1 flex items-center space-x-2 border border-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+                    </svg>
+                    <span>Cart</span>
+                    <span id="cart-count-mobile" class="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
             </nav>
         </div>
     </header>
@@ -154,9 +167,9 @@
             <h3 class="text-3xl font-semibold mb-10">Hubungi kami</h3>
             <p class="text-lg mb-8">Berkantor pusat di Purworejo, Jawa Tengah, Indonesia. Mari bertumbuh bersama!</p>
             <form id="contact-form" class="max-w-lg mx-auto">
-                <input type="text" id="name" placeholder="Nama Kamu" class="w-full p-3 mb-4 rounded bg-white text-gray-800" required>
-                <input type="email" id="email" placeholder="Email Kamu" class="w-full p-3 mb-4 rounded bg-white text-gray-800" required>
-                <textarea id="message" placeholder="Pesan Untuk Kami" class="w-full p-3 mb-6 rounded bg-white text-gray-800" rows="4" required></textarea>
+                <input type="text" id="name" name="name" placeholder="Nama Kamu" class="w-full p-3 mb-4 rounded bg-white text-gray-800" required>
+                <input type="email" id="email" name="email" placeholder="Email Kamu" class="w-full p-3 mb-4 rounded bg-white text-gray-800" required>
+                <textarea id="message" name="message" placeholder="Pesan Untuk Kami" class="w-full p-3 mb-6 rounded bg-white text-gray-800" rows="4" required></textarea>
                 <button type="submit" class="bg-white text-green-700 px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition">Kirim Pesan</button>
             </form>
 
@@ -255,5 +268,4 @@
 </body>
 </html>
 </content>
-
 </create_file>

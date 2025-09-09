@@ -251,7 +251,7 @@
         </div>
         <div class="mb-4">
           <label for="productPrice" class="block text-sm font-medium text-gray-700">Price (Rp)</label>
-          <input type="number" id="productPrice" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+          <input type="number" id="productPrice" step="0.001" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
         </div>
         <div class="mb-4">
           <label for="productImage" class="block text-sm font-medium text-gray-700">Image URL</label>
@@ -424,7 +424,10 @@
                     ${isAdmin && isEditMode ? '<div class="drag-handle cursor-move text-gray-400 mb-2 text-center">⋮⋮</div>' : ''}
                     <img src="${product.image}" alt="${product.title}" class="mx-auto mb-4 rounded">
                     <h4 class="text-xl font-bold text-green-700 mb-2">${product.title}</h4>
+
                     <p class="text-gray-600 mb-4">${product.description}</p>
+
+                    <p class="text-lg font-semibold text-green-600 mb-4">Rp${product.price.toFixed(3)}</p>
                     <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="${product.title}" data-price="${product.price}">Add to Cart</button>
                     ${isAdmin && isEditMode ? `
                         <div class="mt-2 flex gap-2">
