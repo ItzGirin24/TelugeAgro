@@ -70,7 +70,7 @@
             <nav id="nav-menu" class="hidden md:flex space-x-6 text-white font-semibold">
                 <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
-                <a href="#contact" class="hover:text-green-300">Contact</a>
+         
                 <a href="store.html" class="text-green-300 font-bold border-b-2 border-white">Store</a>
                 <a href="cart.html" id="cart-link" class="hover:text-green-300 relative">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +83,7 @@
             <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
                 <a href="leadingpage.html" class="hover:text-green-300">About</a>
                 <a href="#products" class="hover:text-green-300">Products</a>
-                <a href="#contact" class="hover:text-green-300">Contact</a>
+         
                 <a href="store.html" class="text-white font-bold bg-green-700 rounded-full px-3 py-1 flex items-center space-x-2 border border-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
@@ -217,6 +217,20 @@
         </svg>
         Logout
       </button>
+      <button onclick="manageOrders()"
+        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h4l3 8 4-16 3 8h4" />
+        </svg>
+        Pesanan
+      </button>
+      <button onclick="manageWeb()"
+        class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Manage Web
+      </button>
     </div>
   </div>
 
@@ -268,6 +282,35 @@
   <!-- Toast Notification -->
   <div id="toast" class="fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 hidden">
     <span id="toastMessage"></span>
+  </div>
+
+  <!-- Web Management Modal -->
+  <div id="webModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-96 max-w-full">
+      <h2 id="webModalTitle" class="text-lg font-bold mb-4 text-green-700">Manage Web Content</h2>
+      <form id="webForm">
+        <div class="mb-4">
+          <label for="pageTitle" class="block text-sm font-medium text-gray-700">Page Title</label>
+          <input type="text" id="pageTitle" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="heroTitle" class="block text-sm font-medium text-gray-700">Hero Title</label>
+          <input type="text" id="heroTitle" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="heroDescription" class="block text-sm font-medium text-gray-700">Hero Description</label>
+          <textarea id="heroDescription" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="3" required></textarea>
+        </div>
+        <div class="mb-4">
+          <label for="heroImage" class="block text-sm font-medium text-gray-700">Hero Image URL</label>
+          <input type="url" id="heroImage" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+        </div>
+        <div class="flex justify-end gap-3">
+          <button type="button" id="cancelWebBtn" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Save Changes</button>
+        </div>
+      </form>
+    </div>
   </div>
 
     <script>
@@ -684,6 +727,61 @@
             showToast(isEditMode ? 'Edit mode enabled' : 'Edit mode disabled');
         }
 
+        function manageOrders() {
+            window.location.href = 'admin.html';
+        }
+
+        function manageWeb() {
+            // Load current web content
+            loadWebContent();
+            // Show the web management modal
+            document.getElementById('webModal').classList.remove('hidden');
+        }
+
+        // Load current web content into the form
+        function loadWebContent() {
+            // Get current values from the page
+            const pageTitle = document.title;
+            const heroTitle = document.querySelector('.hero-bg h2').textContent;
+            const heroDescription = document.querySelector('.hero-bg p').textContent;
+            const heroImage = document.querySelector('.hero-bg img').src;
+
+            // Populate form fields
+            document.getElementById('pageTitle').value = pageTitle;
+            document.getElementById('heroTitle').value = heroTitle;
+            document.getElementById('heroDescription').value = heroDescription;
+            document.getElementById('heroImage').value = heroImage;
+        }
+
+        // Save web content changes
+        function saveWebContent(pageTitle, heroTitle, heroDescription, heroImage) {
+            try {
+                // Update page title
+                document.title = pageTitle;
+
+                // Update hero section
+                document.querySelector('.hero-bg h2').textContent = heroTitle;
+                document.querySelector('.hero-bg p').textContent = heroDescription;
+                document.querySelector('.hero-bg img').src = heroImage;
+
+                // Save to localStorage for persistence
+                const webContent = {
+                    pageTitle,
+                    heroTitle,
+                    heroDescription,
+                    heroImage
+                };
+                localStorage.setItem('webContent', JSON.stringify(webContent));
+
+                showToast('Web content updated successfully!');
+                return true;
+            } catch (error) {
+                console.error('Error updating web content:', error);
+                showToast('Error updating web content. Please try again.', 'error');
+                return false;
+            }
+        }
+
         function showAddProductForm() {
             // Clear the form for new product
             document.getElementById('productTitle').value = '';
@@ -826,6 +924,23 @@
         document.getElementById('cancelProductBtn').addEventListener('click', () => {
             document.getElementById('productModal').classList.add('hidden');
             currentEditingProduct = null;
+        });
+
+        // Web form event listeners
+        document.getElementById('webForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pageTitle = document.getElementById('pageTitle').value;
+            const heroTitle = document.getElementById('heroTitle').value;
+            const heroDescription = document.getElementById('heroDescription').value;
+            const heroImage = document.getElementById('heroImage').value;
+
+            if (saveWebContent(pageTitle, heroTitle, heroDescription, heroImage)) {
+                document.getElementById('webModal').classList.add('hidden');
+            }
+        });
+
+        document.getElementById('cancelWebBtn').addEventListener('click', () => {
+            document.getElementById('webModal').classList.add('hidden');
         });
 
         // Close modals when clicking outside

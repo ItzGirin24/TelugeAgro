@@ -95,7 +95,7 @@
             <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
                  <a href="leadingpage.html" class="hover:text-green-300">About</a>
                  <a href="#products" class="hover:text-green-300">Products</a>
-                 <a href="#contact" class="hover:text-green-300">Contact</a>
+           
                  <a href="store.html" class="hover:text-green-300">Store</a>
              <a href="cart.html" id="cart-link-mobile" class="hover:text-green-300 relative">
               <a href="cart.html" id="cart-link-mobile" class="hover:text-white bg-green-700 rounded-full px-3 py-1 flex items-center space-x-2 font-semibold">
@@ -495,12 +495,19 @@
             }
         }
 
-        // Make functions global
+        // Make functions global - ensure they are available immediately
         window.manageWeb = manageWeb;
         window.logoutAdmin = logoutAdmin;
         window.editProduct = editProduct;
         window.deleteProduct = deleteProduct;
-        window.updateOrderStatus = updateOrderStatus;
+        window.moduleUpdateOrderStatus = updateOrderStatus; // Store the real function
+        window.updateOrderStatus = updateOrderStatus; // Replace the placeholder
+        window.loadOrders = loadOrders;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrders();
+        });
     </script>
 <script>
       // Hamburger menu toggle
@@ -532,6 +539,21 @@
     document.getElementById('cart-popup').addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    // Global updateOrderStatus function - will be replaced by module version when loaded
+    window.updateOrderStatus = async function(orderId, newStatus) {
+        // Show loading state
+        console.log(`Updating order ${orderId} to ${newStatus}...`);
+
+        // If module version is available, use it
+        if (window.moduleUpdateOrderStatus) {
+            return window.moduleUpdateOrderStatus(orderId, newStatus);
+        }
+
+        // Fallback: show message that function is loading
+        alert('Please wait for the page to fully load before updating orders.');
+    };
+
   </script>
     
 </body>
