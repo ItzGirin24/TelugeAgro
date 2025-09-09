@@ -41,7 +41,13 @@
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
                 <a href="store.html" class="hover:text-green-300">Store</a>
-                <a href="cart.html" class="hover:text-green-300">Cart</a>
+                <a href="cart.html" class="hover:text-green-300 relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+                    </svg>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
+
             </nav>
             <!-- Mobile menu -->
             <nav id="mobile-menu" class="hidden bg-green-600 text-white px-4 py-2 md:hidden flex flex-col space-y-2 absolute top-full right-4 rounded shadow-lg z-20 w-40">
@@ -49,14 +55,20 @@
                 <a href="#products" class="hover:text-green-300">Products</a>
                 <a href="#contact" class="hover:text-green-300">Contact</a>
                 <a href="store.html" class="hover:text-green-300">Store</a>
-                <a href="cart.html" class="hover:text-green-300">Cart</a>
+                <a href="cart.html" class="hover:text-green-300 relative flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3"></path>
+                    </svg>
+                    Cart
+                    <span id="cart-count-mobile" class="ml-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
             </nav>
         </div>
     </header>
 
   <!-- Main Content -->
   <main class="container mx-auto px-4 py-10 flex-grow">
-    <h2 class="text-3xl font-semibold text-green-800 mb-8 text-center">Your Shopping Cart</h2>
+    <h2 class="text-3xl font-semibold text-green-800 mb-8 text-center">Keranjang Belanja Mu </h2>
     <div id="cart-container" class="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
       <table class="w-full text-left border-collapse">
         <thead>
@@ -120,27 +132,7 @@
     <p>© 2023 Teluge Agro. All rights reserved.</p>
   </footer>
 
-  <script type="module">
-    // Firebase SDK imports
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-    import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB2sLqWwZIxr65c3CcNgKCCjmDTeDlSnfY",
-      authDomain: "telugeagro2025.firebaseapp.com",
-      projectId: "telugeagro2025",
-      storageBucket: "telugeagro2025.firebasestorage.app",
-      messagingSenderId: "1029963109637",
-      appId: "1:1029963109637:web:86824d0db45e1489b3136c",
-      measurementId: "G-XF1JDPME66"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    let currentUser = null;
+  <script>
     let cartItems = {}; // Will store cart as object with product names as keys
 
     const cartItemsTbody = document.getElementById('cart-items');
@@ -150,88 +142,55 @@
     const closeModalBtn = document.getElementById('close-modal');
     const checkoutForm = document.getElementById('checkout-form');
 
-    // Initialize Firebase Auth
-    async function initializeAuth() {
-      try {
-        await signInAnonymously(auth);
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            currentUser = user;
-            loadCartFromFirestore();
-          }
-        });
-      } catch (error) {
-        console.error('Auth error:', error.code, error.message);
-        // Fallback to localStorage if Firebase fails
-        cartItems = JSON.parse(localStorage.getItem('cart')) || {};
-        renderCart();
-      }
+    // Load cart from localStorage
+    function loadCart() {
+      const cartData = localStorage.getItem('cart');
+      console.log('Raw cart data from localStorage:', cartData);
+      cartItems = JSON.parse(cartData) || {};
+      console.log('Parsed cart items:', cartItems);
+      renderCart();
     }
 
-    // Load cart from Firestore
-    async function loadCartFromFirestore() {
-      if (!currentUser) return;
-
-      try {
-        const cartRef = doc(db, 'carts', currentUser.uid);
-        const cartSnap = await getDoc(cartRef);
-
-        if (cartSnap.exists()) {
-          cartItems = cartSnap.data().items || {};
-        } else {
-          cartItems = {};
-        }
-        renderCart();
-      } catch (error) {
-        console.error('Error loading cart:', error);
-        // Fallback to localStorage
-        cartItems = JSON.parse(localStorage.getItem('cart')) || {};
-        renderCart();
-      }
-    }
-
-    // Save cart to Firestore
-    async function saveCartToFirestore() {
-      if (!currentUser) return;
-
-      try {
-        const cartRef = doc(db, 'carts', currentUser.uid);
-        await setDoc(cartRef, { items: cartItems }, { merge: true });
-      } catch (error) {
-        console.error('Error saving cart:', error);
-        // Fallback to localStorage
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-      }
+    // Save cart to localStorage
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cartItems));
     }
 
     // Update item quantity
-    async function updateItemQuantity(productName, newQuantity) {
+    function updateItemQuantity(productName, newQuantity) {
       if (newQuantity <= 0) {
         delete cartItems[productName];
       } else {
         cartItems[productName].quantity = newQuantity;
       }
-      await saveCartToFirestore();
+      saveCart();
       renderCart();
     }
 
     // Remove item from cart
-    async function removeItem(productName) {
+    function removeItem(productName) {
       delete cartItems[productName];
-      await saveCartToFirestore();
+      saveCart();
       renderCart();
     }
 
     // Clear cart
-    async function clearCart() {
+    function clearCart() {
       cartItems = {};
-      await saveCartToFirestore();
+      saveCart();
       renderCart();
     }
 
     function renderCart() {
       cartItemsTbody.innerHTML = '';
       const items = Object.values(cartItems);
+
+      // Update cart count badge
+      const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
+      const cartCountElem = document.getElementById('cart-count');
+      const cartCountMobileElem = document.getElementById('cart-count-mobile');
+      if (cartCountElem) cartCountElem.textContent = cartCount;
+      if (cartCountMobileElem) cartCountMobileElem.textContent = cartCount;
 
       if (items.length === 0) {
         cartItemsTbody.innerHTML = '<tr><td colspan="5" class="text-center py-6 text-gray-500">Your cart is empty.</td></tr>';
@@ -255,7 +214,7 @@
           </td>
           <td class="py-3">$${subtotal.toFixed(2)}</td>
           <td class="py-3 text-center">
-            <button data-product="${item.product}" class="remove-btn text-red-600 font-bold hover:text-red-800">×</button>
+            <button data-product="${item.product}" class="remove-btn bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Remove</button>
           </td>
         `;
         cartItemsTbody.appendChild(tr);
@@ -265,27 +224,25 @@
 
     function attachEventListeners() {
       // Use event delegation for better performance and to avoid duplicate event listeners
-      cartItemsTbody.addEventListener('change', async (e) => {
+      cartItemsTbody.addEventListener('change', (e) => {
         if (e.target.classList.contains('quantity-input')) {
           const productName = e.target.dataset.product;
           let val = parseInt(e.target.value);
           if (isNaN(val) || val < 1) val = 1;
-          await updateItemQuantity(productName, val);
+          updateItemQuantity(productName, val);
         }
       });
 
-      cartItemsTbody.addEventListener('click', async (e) => {
+      cartItemsTbody.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-btn')) {
           const productName = e.target.dataset.product;
-          await removeItem(productName);
+          removeItem(productName);
         }
       });
     }
 
-    // Attach event listeners once when the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      attachEventListeners();
-    });
+    // Attach event listeners
+    attachEventListeners();
 
     checkoutBtn.addEventListener('click', () => {
       checkoutModal.classList.remove('hidden');
@@ -302,7 +259,7 @@
       }
     });
 
-    checkoutForm.addEventListener('submit', async (e) => {
+    checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
       // Simulate payment processing
       const name = checkoutForm.name.value.trim();
@@ -319,10 +276,10 @@
       checkoutBtn.disabled = true;
       checkoutBtn.textContent = 'Processing...';
 
-      setTimeout(async () => {
+      setTimeout(() => {
         alert(`Thank you, ${name}! Your payment via ${payment.replace('_', ' ')} was successful.\nYour order will be shipped to:\n${address}`);
         // Clear cart
-        await clearCart();
+        clearCart();
         checkoutForm.reset();
         checkoutModal.classList.add('hidden');
         checkoutBtn.disabled = false;
@@ -353,7 +310,7 @@
     });
 
     // Initialize the app
-    initializeAuth();
+    loadCart();
   </script>
 </body>
 </html>
