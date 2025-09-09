@@ -8,9 +8,10 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
     body {
       background: linear-gradient(to bottom, #E8F5E9 0%, #FFFFFF 100%);
-      font-family: 'Arial', sans-serif;
+      font-family: 'Quicksand', sans-serif;
     }
     .text-shadow-green {
       text-shadow: 0 2px 4px rgba(76, 175, 80, 0.5);
@@ -19,6 +20,71 @@
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
       margin: 0; 
+    }
+    /* Responsive table for mobile */
+    @media (max-width: 640px) {
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      thead {
+        display: none;
+      }
+      tbody tr {
+        display: block;
+        border-bottom: 1px solid #c6f6d5;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+      }
+      tbody tr td {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+      }
+      tbody tr td:nth-child(1)::before {
+        content: "Product: ";
+        font-weight: 600;
+        color: #2f855a;
+      }
+      tbody tr td:nth-child(2)::before {
+        content: "Price: ";
+        font-weight: 600;
+        color: #2f855a;
+      }
+      tbody tr td:nth-child(3)::before {
+        content: "Quantity: ";
+        font-weight: 600;
+        color: #2f855a;
+      }
+      tbody tr td:nth-child(4)::before {
+        content: "Subtotal: ";
+        font-weight: 600;
+        color: #2f855a;
+      }
+      tbody tr td:nth-child(5)::before {
+        content: "Remove: ";
+        font-weight: 600;
+        color: #2f855a;
+      }
+      tbody tr td input.quantity-input {
+        max-width: 60px;
+      }
+      tbody tr td button.remove-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+      }
+      .text-right {
+        text-align: left !important;
+      }
+      .text-xl {
+        font-size: 1.125rem !important;
+      }
+      #checkout-btn {
+        width: 100%;
+        padding: 1rem 0;
+        font-size: 1.125rem;
+      }
     }
   </style>
 </head>
@@ -144,7 +210,25 @@
     <span id="popup-count">0</span> items in cart
   </div>
 
-  <script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB2sLqWwZIxr65c3CcNgKCCjmDTeDlSnfY",
+            authDomain: "telugeagro2025.firebaseapp.com",
+            projectId: "telugeagro2025",
+            storageBucket: "telugeagro2025.firebasestorage.app",
+            messagingSenderId: "1029963109637",
+            appId: "1:1029963109637:web:86824d0db45e1489b3136c",
+            measurementId: "G-XF1JDPME66"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
     let cartItems = {}; // Will store cart as object with product names as keys
 
     const cartItemsTbody = document.getElementById('cart-items');
@@ -214,34 +298,34 @@
         popup.classList.add('hidden');
       }
 
-      if (items.length === 0) {
-        cartItemsTbody.innerHTML = '<tr><td colspan="5" class="text-center py-6 text-gray-500">Your cart is empty.</td></tr>';
-        cartTotalSpan.textContent = '0.00';
-        checkoutBtn.disabled = true;
-        return;
-      }
+        if (items.length === 0) {
+          cartItemsTbody.innerHTML = '<tr><td colspan="5" class="text-center py-6 text-gray-500">Keranjang mu kosong.</td></tr>';
+          cartTotalSpan.textContent = '0.000';
+          checkoutBtn.disabled = true;
+          return;
+        }
 
-      checkoutBtn.disabled = false;
-      let total = 0;
-      items.forEach((item, index) => {
-        const subtotal = item.price * item.quantity;
-        total += subtotal;
-        const tr = document.createElement('tr');
-        tr.classList.add('border-b', 'border-green-300');
-        tr.innerHTML = `
-          <td class="py-3">${item.product}</td>
-          <td class="py-3">$${item.price.toFixed(2)}</td>
-          <td class="py-3">
-            <input type="number" min="1" value="${item.quantity}" data-product="${item.product}" class="quantity-input w-16 border border-gray-300 rounded px-2 py-1" />
-          </td>
-          <td class="py-3">$${subtotal.toFixed(2)}</td>
-          <td class="py-3 text-center">
-            <button data-product="${item.product}" class="remove-btn bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Remove</button>
-          </td>
-        `;
-        cartItemsTbody.appendChild(tr);
-      });
-      cartTotalSpan.textContent = total.toFixed(2);
+        checkoutBtn.disabled = false;
+        let total = 0;
+        items.forEach((item, index) => {
+          const subtotal = item.price * item.quantity;
+          total += subtotal;
+          const tr = document.createElement('tr');
+          tr.classList.add('border-b', 'border-green-300');
+          tr.innerHTML = `
+            <td class="py-3">${item.product}</td>
+            <td class="py-3">Rp${item.price.toFixed(3)}</td>
+            <td class="py-3">
+              <input type="number" min="1" value="${item.quantity}" data-product="${item.product}" class="quantity-input w-16 border border-gray-300 rounded px-2 py-1" />
+            </td>
+            <td class="py-3">Rp${subtotal.toFixed(3)}</td>
+            <td class="py-3 text-center">
+              <button data-product="${item.product}" class="remove-btn bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Remove</button>
+            </td>
+          `;
+          cartItemsTbody.appendChild(tr);
+        });
+        cartTotalSpan.textContent = total.toFixed(3);
     }
 
     function attachEventListeners() {
@@ -281,7 +365,7 @@
       }
     });
 
-    checkoutForm.addEventListener('submit', (e) => {
+    checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       // Simulate payment processing
       const name = checkoutForm.name.value.trim();
@@ -298,15 +382,40 @@
       checkoutBtn.disabled = true;
       checkoutBtn.textContent = 'Processing...';
 
-      setTimeout(() => {
-        alert(`Thank you, ${name}! Your payment via ${payment.replace('_', ' ')} was successful.\nYour order will be shipped to:\n${address}`);
+      try {
+        // Prepare order data
+        const items = Object.values(cartItems);
+        const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        const orderData = {
+          userId: email, // Using email as user ID for simplicity
+          customerName: name,
+          email: email,
+          address: address,
+          paymentMethod: payment,
+          items: items,
+          total: total,
+          timestamp: new Date(),
+          status: 'pending'
+        };
+
+        // Save order to Firestore
+        await db.collection('orders').add(orderData);
+
+        alert(`Thank you, ${name}! Your payment via ${payment.replace('_', ' ')} was successful.\nYour order will be shipped to:\n${address}\n\nOrder details have been saved and can be viewed in the admin panel.`);
+
         // Clear cart
         clearCart();
         checkoutForm.reset();
         checkoutModal.classList.add('hidden');
         checkoutBtn.disabled = false;
         checkoutBtn.textContent = 'Proceed to Checkout';
-      }, 1500);
+      } catch (error) {
+        console.error('Error saving order:', error);
+        alert('There was an error processing your order. Please try again.');
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = 'Proceed to Checkout';
+      }
     });
 
     // Hamburger menu toggle
