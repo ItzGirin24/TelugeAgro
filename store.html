@@ -230,23 +230,7 @@
             });
         });
 
-        const cartLink = document.getElementById('cart-link');
-        if (cartLink) {
-            cartLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                const cartModal = document.getElementById('cart-modal');
-                if (cartModal) cartModal.style.display = 'block';
-            });
-        }
-
-        const cartLinkMobile = document.getElementById('cart-link-mobile');
-        if (cartLinkMobile) {
-            cartLinkMobile.addEventListener('click', (e) => {
-                e.preventDefault();
-                const cartModal = document.getElementById('cart-modal');
-                if (cartModal) cartModal.style.display = 'block';
-            });
-        }
+        // Cart links now link to cart.html without modal
 
         const closeBtn = document.querySelector('.close');
         if (closeBtn) {
@@ -352,7 +336,8 @@
 
         // Popup click event
         document.getElementById('cart-popup').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const cartModal = document.getElementById('cart-modal');
+            if (cartModal) cartModal.style.display = 'block';
         });
     </script>
 </body>
