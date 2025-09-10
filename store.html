@@ -31,6 +31,17 @@
         .product-card:hover {
             transform: scale(1.05);
         }
+        /* Added CSS for uniform product image sizes */
+        .product-card img {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 0.375rem; /* same as rounded class */
+        }
         .modal {
             display: none;
             position: fixed;
@@ -177,7 +188,7 @@
 
     <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>© 2023 Teluge Agro. All rights reserved.</p>
+    <p>© 2017 Teluge Agro. All rights reserved.</p>
   </footer>
 
   <!-- Cart Popup -->
