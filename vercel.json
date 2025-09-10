@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/About", "destination": "/leadingpage.html" }
+    { "source": "/Store", "destination": "/store" }
+    { "source": "/Keranjang", "destination": "/cart.html" }
+    { "source": "/Admin_Panel", "destination": "/admin.html" }
+    { "source": "/Profil", "destination": "/index.html" }
+   { "source": "/TelugeImage", "destination": "/telugeimage.html" }
+  ]
+}
