@@ -206,6 +206,7 @@
       <path d="M5 21c0-3 6-3 7-3s7 0 7 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
   </button>
+ 
 
   <!-- Admin Panel Popup -->
   <div id="adminMenu" class="hidden fixed bottom-16 left-4 bg-white rounded-lg shadow-xl border border-gray-200 z-40 w-64">
@@ -221,7 +222,7 @@
         </svg>
         Manage Products
       </button>
-      <button onclick="logoutAdmin()"
+      <button onclick="logoutAdminKeepLogo()"
         class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-9A2.25 2.25 0 002.25 5.25v13.5A2.25 2.25 0 004.5 21h9a2.25 2.25 0 002.25-2.25V15M12 9l3-3m0 0l3 3m-3-3v12"/>
@@ -242,6 +243,7 @@
         </svg>
         Manage Web
       </button>
+
     </div>
   </div>
 
@@ -713,6 +715,15 @@
             renderProducts();
             showToast('Logged out successfully');
         }
+
+function logoutAdminKeepLogo() {
+    logoutAdmin(); // Call the regular logout function
+    // Show the account button (logo) again to keep it visible after logout
+    const accountBtn = document.getElementById('accountBtn');
+    if (accountBtn) {
+        accountBtn.classList.remove('hidden');
+    }
+}
 
         function showAdminMenu() {
             document.getElementById('accountBtn').classList.remove('hidden');
