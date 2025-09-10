@@ -136,7 +136,7 @@
 
     <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>© 2017 Teluge Agro. All rights reserved.</p>
+    <p>© 2023 Teluge Agro. All rights reserved.</p>
   </footer>
 
   <!-- Cart Popup -->
@@ -347,7 +347,60 @@
             }
         }
 
-    
+        // Load static products as fallback
+        function loadStaticProducts() {
+            products = [
+                {
+                    id: 'cavendish',
+                    title: 'Pisang Cavendish',
+                    description: 'Manis dan creamy, cocok untuk ekspor. Harga: Rp.12.000 per kg',
+                    price: 2.50,
+                    image: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6687a905-5ec4-43e4-9738-c2cc0c9db9b7.png',
+                    order: 1
+                },
+                {
+                    id: 'green-bananas',
+                    title: 'Pisang Hijau',
+                    description: 'Fresh and healthy options for local markets. Price: Rp.14.000 per kg',
+                    price: 1.80,
+                    image: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ae569231-d922-40c1-b7b2-db4e98abb5e1.png',
+                    order: 2
+                },
+                {
+                    id: 'bulk-export',
+                    title: 'Ekspor Paket Massal',
+                    description: 'Kemasan grosir untuk distributor. Harga: Rp.17.000 per kg (min. 100 kg)',
+                    price: 190.00,
+                    image: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0472f936-2084-4f51-9c4d-414ee6926919.png',
+                    order: 3
+                },
+                {
+                    id: 'plantain',
+                    title: 'Pisang Untuk Kue',
+                    description: 'Cocok untuk memasak dan menggoreng. Harga: Rp. 15.000 per kg',
+                    price: 1.50,
+                    image: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bd310699-54f4-480f-a0a5-4f8c3610f6d0.png',
+                    order: 4
+                },
+                {
+                    id: 'silk-bananas',
+                    title: 'Pisang Sutra',
+                    description: 'Pisang manis mini untuk camilan. Harga: Rp. 25.0000 per kg',
+                    price: 3.00,
+                    image: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fd4dc657-9fda-44f4-b8a1-358a90c514e9.png',
+                    order: 5
+                },
+                {
+                    id: 'snacks-pack',
+                    title: 'Paket Cemilan Pisang',
+                    description: 'Keripik pisang kering dan produk lainnya. Harga: Rp. 20.000 per bungkus',
+                    price: 5.00,
+                    image: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a9d1dfe3-39bd-4e8b-b78b-dcae997768e0.png',
+                    order: 6
+                }
+            ];
+            renderProducts();
+        }
 
         // Render products
         function renderProducts() {
@@ -921,7 +974,5 @@
 </html>
 </content>
 </create_file>
-
-
 
 
