@@ -212,6 +212,30 @@
   </footer>
 
     <script>
+        // Load cart from localStorage and update badge
+        function loadCart() {
+            const cartData = localStorage.getItem('cart');
+            if (cartData) {
+                try {
+                    const cartItems = JSON.parse(cartData);
+                    const items = Object.values(cartItems);
+                    const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
+
+                    // Update cart count badges
+                    const cartCountElem = document.getElementById('cart-count');
+                    const cartCountMobileElem = document.getElementById('cart-count-mobile');
+
+                    if (cartCountElem) cartCountElem.textContent = cartCount;
+                    if (cartCountMobileElem) cartCountMobileElem.textContent = cartCount;
+                } catch (error) {
+                    console.error('Error parsing cart data:', error);
+                }
+            }
+        }
+
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', loadCart);
+
         // Simple form validation and animation
         const form = document.getElementById('contact-form');
         form.addEventListener('submit', function(e) {
@@ -268,5 +292,4 @@
 </body>
 </html>
 </content>
-
 </create_file>
