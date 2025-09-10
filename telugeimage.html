@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TelugeImage - Photo Upload Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="logo Teluge.jpg" type="image/x-icon">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #86efac, #4ade80);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+    .container {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      padding: 2rem 2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #166534;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    p.desc {
+      font-weight: 500;
+      color: #065f46;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+    .upload-section {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    #photoInput {
+      width: 100%;
+      padding: 1rem;
+      border: 2px dashed #22c55e;
+      border-radius: 1rem;
+      background: #d9f99d;
+      cursor: pointer;
+      font-weight: 600;
+      color: #166534;
+      transition: background-color 0.3s ease;
+    }
+    #photoInput:hover {
+      background-color: #bef264;
+    }
+    #uploadBtn {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(34, 197, 94, 0.5);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: none;
+    }
+    #uploadBtn:hover {
+      background-color: #15803d;
+      transform: scale(1.05);
+    }
+    .gallery {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .gallery-item {
+      background: #f0fdf4;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease;
+    }
+    .gallery-item:hover {
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 3px solid #22c55e;
+      border-radius: 1rem 1rem 0 0;
+      user-select: none;
+    }
+    .controls {
+      padding: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .url-input {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: 2px solid #22c55e;
+      border-radius: 1rem;
+      font-size: 0.9rem;
+      background: #d9f99d;
+      color: #166534;
+      user-select: all;
+      resize: none;
+      font-family: 'Quicksand', sans-serif;
+    }
+    .copy-btn {
+      background: #16a34a;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(22, 163, 74, 0.5);
+      transition: background-color 0.3s ease;
+    }
+    .copy-btn:hover {
+      background-color: #15803d;
+    }
+    .no-images {
+      text-align: center;
+      color: #166534;
+      font-weight: 600;
+      font-size: 1.2rem;
+      padding: 3rem 1rem;
+      background: #d9f99d;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+      user-select: none;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      #photoInput {
+        padding: 0.75rem;
+        font-size: 1rem;
+      }
+      #uploadBtn {
+        font-size: 1rem;
+        padding: 0.85rem;
+      }
+      .gallery-item img {
+        height: 140px;
+      }
+      .url-input {
+        font-size: 0.85rem;
+      }
+      .copy-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Photo upload gallery TelugeImage">
+    <h1>TelugeImage</h1>
+    <p class="desc">Upload foto dari perangkat Anda dan dapatkan URL yang bisa disalin untuk thumbnail gambar.</p>
+
+    <section class="upload-section" aria-label="Upload photos section">
+      <input type="file" id="photoInput" multiple accept="image/*" aria-describedby="upload-desc" aria-label="Pilih foto untuk diupload" />
+      <button id="uploadBtn" aria-live="polite" aria-label="Upload selected photos">Upload Selected Photos</button>
+      <p id="upload-desc" class="desc" style="font-size: 0.9rem; color: #166534; margin-top: 0.5rem;">
+        Pilih beberapa foto dari perangkat Anda untuk ditambahkan ke galeri publik.
+      </p>
+    </section>
+
+    <section id="gallery" class="gallery" aria-live="polite" aria-label="Uploaded photos gallery">
+      <p class="no-images">Belum ada foto yang diupload. Silakan upload foto untuk memulai!</p>
+    </section>
+  </main>
+
+  <script>
+    const photoInput = document.getElementById('photoInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const gallery = document.getElementById('gallery');
+
+    let uploadedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+
+    // Tampilkan tombol upload hanya jika ada file yang dipilih
+    photoInput.addEventListener('change', () => {
+      uploadBtn.style.display = photoInput.files.length > 0 ? 'block' : 'none';
+    });
+
+    // Render galeri foto
+    function renderGallery() {
+      gallery.innerHTML = '';
+      if (uploadedImages.length === 0) {
+        gallery.innerHTML = '<p class="no-images">Belum ada foto yang diupload. Silakan upload foto untuk memulai!</p>';
+        return;
+      }
+      uploadedImages.forEach((src, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `
+          <img src="${src}" alt="Foto pengguna nomor ${index + 1}" loading="lazy" />
+          <div class="controls">
+            <textarea class="url-input" readonly aria-label="URL foto nomor ${index + 1}">${src}</textarea>
+            <button class="copy-btn" onclick="copyToClipboard('${src}')" aria-label="Salin URL foto nomor ${index + 1}">Salin URL</button>
+          </div>
+        `;
+        gallery.appendChild(item);
+      });
+    }
+
+    // Salin URL ke clipboard dengan notifikasi
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('URL berhasil disalin! Anda dapat menggunakannya sebagai thumbnail gambar.');
+      }).catch(() => {
+        alert('Gagal menyalin URL. Silakan salin secara manual.');
+      });
+    }
+
+    // Handler upload
+    uploadBtn.addEventListener('click', () => {
+      const files = photoInput.files;
+      if (files.length === 0) {
+        alert('Silakan pilih minimal satu foto untuk diupload.');
+        return;
+      }
+      Array.from(files).forEach(file => {
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            uploadedImages.push(e.target.result);
+            localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
+            renderGallery();
+          };
+          reader.readAsDataURL(file);
+        } else {
+          alert('Hanya file gambar yang diperbolehkan.');
+        }
+      });
+      photoInput.value = '';
+      uploadBtn.style.display = 'none';
+    });
+
+    // Render awal
+    renderGallery();
+  </script>
+</body>
+</html>
