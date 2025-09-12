@@ -327,6 +327,11 @@
   </div>
 
     <script>
+        // Utility function to format price without trailing zeros
+        function formatPrice(price) {
+            return parseFloat(price).toString();
+        }
+
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyB2sLqWwZIxr65c3CcNgKCCjmDTeDlSnfY",
@@ -483,7 +488,7 @@
 
                     <p class="text-gray-600 mb-4">${product.description}</p>
 
-                    <p class="text-lg font-semibold text-green-600 mb-4">Rp${product.price.toFixed(3)}</p>
+                    <p class="text-lg font-semibold text-green-600 mb-4">Rp${formatPrice(product.price)}</p>
                     <button class="add-to-cart bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" data-product="${product.title}" data-price="${product.price}">Add to Cart</button>
                     ${isAdmin && isEditMode ? `
                         <div class="mt-2 flex gap-2">
@@ -579,16 +584,17 @@
             }
 
             items.forEach(item => {
-                total += item.price * item.quantity;
-                    cartItemsDiv.innerHTML += `
-                        <div class="flex justify-between py-2">
-                            <span>${item.product} (x${item.quantity})</span>
-                            <span>Rp${(item.price * item.quantity).toFixed(3)}</span>
-                            <button class="remove-btn text-red-500" data-product="${item.product}">Remove</button>
-                        </div>
-                    `;
+            total += item.price * item.quantity;
+            cartItemsDiv.innerHTML += `
+                <div class="flex justify-between py-2">
+                    <span>${item.product} (x${item.quantity})</span>
+                    <span>Rp${formatPrice(item.price * item.quantity)}</span>
+                    <button class="remove-btn text-red-500" data-product="${item.product}">Remove</button>
+                </div>
+            `;
             });
-            document.getElementById('cart-total').textContent = total.toFixed(3);
+        document.getElementById('cart-total').textContent = formatPrice(total);
+
 
             // Event delegation for remove buttons
             document.getElementById('cart-items').addEventListener('click', (e) => {
